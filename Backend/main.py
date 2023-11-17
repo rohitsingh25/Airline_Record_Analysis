@@ -1,5 +1,5 @@
-import numpy as np # linear algebra
-import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+import numpy as np 
+import pandas as pd 
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
@@ -9,7 +9,7 @@ df=pd.read_csv("Airline Dataset Updated.csv", parse_dates=["Departure Date"])
 df.head(11)
 df.info()
 df.nunique()
-df.isnull().sum().sum() #Checking if Null value is present
+df.isnull().sum().sum() 
 
 df['Gender']=df['Gender'].astype('category')
 df['Gender'].unique()
