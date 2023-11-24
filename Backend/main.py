@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd 
 import matplotlib.pyplot as plt
 import seaborn as sns
-# import plotly.express as px
+import plotly.express as px
 import os
 
 # use of pandas
@@ -24,17 +24,23 @@ for index, column in enumerate(columns):
 
 count_1 = df['Gender'].value_counts()
 count_1
+
 # Distribution of passengers accross Genders
+
 # fig = px.pie(count_1, values=count_1.values, names=count_1.index,title= "Distribution of passengers accross Genders")
 # fig.show()
-labels = count_1.index
-values = count_1.values
-plt.figure(figsize=(8, 6))
-plt.pie(values, labels=labels, autopct='%1.1f%%')
-plt.title('Distribution of passengers across Genders')
-plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-plt.savefig('../Frontend/img/pie_chart.png')
-plt.show()
+
+
+# labels = count_1.index
+# values = count_1.values
+# plt.figure(figsize=(8, 6))
+# plt.pie(values, labels=labels, autopct='%1.1f%%')
+# plt.title('Distribution of passengers across Genders')
+# plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+# plt.savefig('../Frontend/img/pie_chart.png')
+# plt.show()
+
+
 exit(0)
 
 
