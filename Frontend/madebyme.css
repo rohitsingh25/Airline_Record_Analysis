@@ -218,3 +218,18 @@ h4 span{
   .view-button:hover {
     background-color: #0056b3;
   }
+  .file-container {
+    margin-top: 50px;
+  }
+  .download-btn {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .download-btn:hover {
+    background-color: #0056b3;
+  }
