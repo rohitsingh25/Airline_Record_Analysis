@@ -50,6 +50,27 @@
             margin-left: 10px; /* Adjust the margin between the Download and Back buttons */
         }
     </style>
+     <!-- <script>
+            function downloadImage() {
+            var link = document.createElement('a');
+            link.href = '../img/Graph2.png'; // Placeholder link
+            link.download = 'Graph2.png'; // Specify the filename for the downloaded image
+            link.target = '_blank'; // Open the link in a new tab/window (optional)
+            document.body.appendChild(link);
+
+            // Replace 'image.png' with your PNG image URL
+            fetch('../img/Graph2.png')
+                .then(response => response.blob())
+                .then(blob => {
+                const objectURL = URL.createObjectURL(blob);
+                link.href = objectURL; // Set the actual image URL for download
+                link.click();
+                URL.revokeObjectURL(objectURL);
+                });
+
+            document.body.removeChild(link);
+            }
+      </script> -->
 </head>
 <body>
 
@@ -61,6 +82,8 @@
     <!-- <a href="Graph1.png" download>Download</a> -->
     <h2>Graph Explanation</h2>
         <p>This is where you can provide an explanation of the graph and its significance.</p>
+        <!-- <button onclick="downloadImage()">Download</button> -->
+        <!-- <a href="../img/Graph2.png" download="Graph2.png" id="download-btn">Download</a> -->
     <button id="download-btn" type="button" data-download="graph-image">Download</button>
     <!-- Back Button -->
     <a id="back-btn" href="../index.html#returnFromGraphs">Back</a>
