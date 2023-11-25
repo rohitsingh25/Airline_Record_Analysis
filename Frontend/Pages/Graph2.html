@@ -25,13 +25,9 @@
             text-align: center;
         }
 
-        #explanation {
-            margin-bottom: 20px;
-        }
-
         #graph-image {
             width: 100%; /* Ensure the image takes up the full width of its container */
-            max-width: 600px; /* Set a maximum width for the image */
+            max-width: 800px; /* Set a maximum width for the image */
         }
 
         #download-btn, #back-btn {
@@ -50,27 +46,6 @@
             margin-left: 10px; /* Adjust the margin between the Download and Back buttons */
         }
     </style>
-     <!-- <script>
-            function downloadImage() {
-            var link = document.createElement('a');
-            link.href = '../img/Graph2.png'; // Placeholder link
-            link.download = 'Graph2.png'; // Specify the filename for the downloaded image
-            link.target = '_blank'; // Open the link in a new tab/window (optional)
-            document.body.appendChild(link);
-
-            // Replace 'image.png' with your PNG image URL
-            fetch('../img/Graph2.png')
-                .then(response => response.blob())
-                .then(blob => {
-                const objectURL = URL.createObjectURL(blob);
-                link.href = objectURL; // Set the actual image URL for download
-                link.click();
-                URL.revokeObjectURL(objectURL);
-                });
-
-            document.body.removeChild(link);
-            }
-      </script> -->
 </head>
 <body>
 
@@ -81,12 +56,11 @@
     <img id="graph-image" src="../img/Graph2.png" alt="Graph">  
     <!-- <a href="Graph1.png" download>Download</a> -->
     <h2>Graph Explanation</h2>
-        <p>This is where you can provide an explanation of the graph and its significance.</p>
-        <!-- <button onclick="downloadImage()">Download</button> -->
-        <!-- <a href="../img/Graph2.png" download="Graph2.png" id="download-btn">Download</a> -->
+        <p>Visualizing the distribution of passengers among the top 10 nations with the highest passenger counts in the dataset is the 'Top 10 Airport nations with Most Passengers' bar chart. Every bar signifies a nation, and the height of each bar reflects the quantity of travelers. The country names are shown on the x-axis, while the number of passengers is shown on the y-axis. The passenger flow between the chosen countries can be quickly and easily compared thanks to this graphical depiction. The graphic makes it simple to identify the nations with the greatest passenger volumes and provides information about how important each country is in relation to air travel and passenger participation in the dataset.</p>
     <button id="download-btn" type="button" data-download="graph-image">Download</button>
     <!-- Back Button -->
-    <a id="back-btn" href="../index.html#returnFromGraphs">Back</a>
+    <!-- <a id="back-btn" href="../index.html">Back</a> -->
+    <button id="back-btn" onclick="window.location.href='../index.html'">Back</button>
     <script>
         const downloadLinks=document.querySelectorAll("[data-download]");
         downloadLinks.forEach(button=>{
@@ -95,7 +69,7 @@
             const a=document.createElement("a");
 
             a.href=image.src;
-            a.download="../img/Graph2.png";
+            a.download="";
             a.style.display="none";
 
             button.addEventListener("click",()=>{
@@ -109,4 +83,3 @@
 
 </body>
 </html>
-+
