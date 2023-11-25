@@ -27,7 +27,7 @@
 
         #graph-image {
             width: 100%; /* Ensure the image takes up the full width of its container */
-            max-width: 800px; /* Set a maximum width for the image */
+            max-width: 900px; /* Set a maximum width for the image */
         }
 
         #download-btn, #back-btn {
@@ -50,17 +50,19 @@
 <body>
 
 <div id="graph-container">
-    <!-- Explanation -->
-
-    <!-- Your graph goes here -->
+    
     <img id="graph-image" src="../img/Graph2.png" alt="Graph">  
-    <!-- <a href="Graph1.png" download>Download</a> -->
+    
     <h2>Graph Explanation</h2>
         <p>Visualizing the distribution of passengers among the top 10 nations with the highest passenger counts in the dataset is the 'Top 10 Airport nations with Most Passengers' bar chart. Every bar signifies a nation, and the height of each bar reflects the quantity of travelers. The country names are shown on the x-axis, while the number of passengers is shown on the y-axis. The passenger flow between the chosen countries can be quickly and easily compared thanks to this graphical depiction. The graphic makes it simple to identify the nations with the greatest passenger volumes and provides information about how important each country is in relation to air travel and passenger participation in the dataset.</p>
+    
     <button id="download-btn" type="button" data-download="graph-image">Download</button>
-    <!-- Back Button -->
+    
+
     <!-- <a id="back-btn" href="../index.html">Back</a> -->
-    <button id="back-btn" onclick="window.location.href='../index.html'">Back</button>
+    <button id="back-btn" onclick="window.location.href='../index.html#returnFromGraphs'">Back</button>
+
+
     <script>
         const downloadLinks=document.querySelectorAll("[data-download]");
         downloadLinks.forEach(button=>{
