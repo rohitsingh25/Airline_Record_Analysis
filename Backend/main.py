@@ -48,6 +48,199 @@ fig.write_image("Graph3.png")
 # #fig.show()
 
 
+# Bar Graph : Passengers of Asian countries
+
+continent = 'Asia'
+df=pd.read_csv("Airline Dataset.csv", parse_dates=["Departure Date"])
+df_continent = df[df['Continents'] == continent]
+
+x = list(set(list(df_continent['Country Name'])))
+y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
+data = [(i,j) for i,j in zip(x, y)]
+data = sorted(data, key=lambda x:x[1])[-10:]
+plt.barh([i for i,j in data], [j for i, j in data])
+# plt.pie([j for i,j in data], labels=[i for i, j in data],autopct='%1.1f%%')
+# plt.legend()
+# plt.show()
+plt.savefig('bar_asia_pass.png', dpi=300)
+
+# Pie Chart : Passengers of Asian countries
+
+continent = 'Asia'
+df=pd.read_csv("Airline Dataset.csv", parse_dates=["Departure Date"])
+df_continent = df[df['Continents'] == continent]
+
+x = list(set(list(df_continent['Country Name'])))
+y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
+data = [(i,j) for i,j in zip(x, y)]
+data = sorted(data, key=lambda x:x[1])[-10:]
+# plt.barh([i for i,j in data], [j for i, j in data])
+plt.pie([j for i,j in data], labels=[i for i, j in data],autopct='%1.1f%%')
+# plt.legend()
+# plt.show()
+plt.savefig('pie_North_America_pass.png', dpi=300)
+
+
+# Bar Graph : Passengers of North American countries
+
+continent = 'North America'
+df=pd.read_csv("Airline Dataset.csv", parse_dates=["Departure Date"])
+df_continent = df[df['Continents'] == continent]
+
+x = list(set(list(df_continent['Country Name'])))
+y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
+data = [(i,j) for i,j in zip(x, y)]
+data = sorted(data, key=lambda x:x[1])[-10:]
+plt.barh([i for i,j in data], [j for i, j in data])
+# plt.pie([j for i,j in data], labels=[i for i, j in data],autopct='%1.1f%%')
+# plt.legend()
+# plt.show()
+plt.savefig('bar_asia_pass.png', dpi=300)
+
+# Pie Chart : Passengers of North American  countries
+
+continent = 'North America'
+df=pd.read_csv("Airline Dataset.csv", parse_dates=["Departure Date"])
+df_continent = df[df['Continents'] == continent]
+
+x = list(set(list(df_continent['Country Name'])))
+y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
+data = [(i,j) for i,j in zip(x, y)]
+data = sorted(data, key=lambda x:x[1])[-10:]
+# plt.barh([i for i,j in data], [j for i, j in data])
+plt.pie([j for i,j in data], labels=[i for i, j in data],autopct='%1.1f%%')
+# plt.legend()
+# plt.show()
+plt.savefig('pie_North_America_pass.png', dpi=300)
+
+# Bar Graph : Passengers of European countries
+
+continent = 'Europe'
+df=pd.read_csv("Airline Dataset.csv", parse_dates=["Departure Date"])
+df_continent = df[df['Continents'] == continent]
+
+x = list(set(list(df_continent['Country Name'])))
+y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
+data = [(i,j) for i,j in zip(x, y)]
+data = sorted(data, key=lambda x:x[1])[-10:]
+plt.barh([i for i,j in data], [j for i, j in data])
+# plt.pie([j for i,j in data], labels=[i for i, j in data],autopct='%1.1f%%')
+# plt.legend()
+# plt.show()
+plt.savefig('bar_Europe_pass.png', dpi=300)
+
+# Pie Chart : Passengers of European countries
+
+continent = 'Europe'
+df=pd.read_csv("Airline Dataset.csv", parse_dates=["Departure Date"])
+df_continent = df[df['Continents'] == continent]
+
+x = list(set(list(df_continent['Country Name'])))
+y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
+data = [(i,j) for i,j in zip(x, y)]
+data = sorted(data, key=lambda x:x[1])[-10:]
+# plt.barh([i for i,j in data], [j for i, j in data])
+plt.pie([j for i,j in data], labels=[i for i, j in data],autopct='%1.1f%%')
+# plt.legend()
+# plt.show()
+plt.savefig('pie_Europe_pass.png', dpi=300)
+
+# Bar Graph : Passengers of South American countries
+
+continent = 'South America'
+df=pd.read_csv("Airline Dataset.csv", parse_dates=["Departure Date"])
+df_continent = df[df['Continents'] == continent]
+
+x = list(set(list(df_continent['Country Name'])))
+y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
+data = [(i,j) for i,j in zip(x, y)]
+data = sorted(data, key=lambda x:x[1])[-10:]
+plt.barh([i for i,j in data], [j for i, j in data])
+# plt.pie([j for i,j in data], labels=[i for i, j in data],autopct='%1.1f%%')
+# plt.legend()
+# plt.show()
+plt.savefig('bar_South_America_pass.png', dpi=300)
+
+# Pie Chart : Passengers of South American countries
+
+continent = 'South America'
+df=pd.read_csv("Airline Dataset.csv", parse_dates=["Departure Date"])
+df_continent = df[df['Continents'] == continent]
+
+x = list(set(list(df_continent['Country Name'])))
+y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
+data = [(i,j) for i,j in zip(x, y)]
+data = sorted(data, key=lambda x:x[1])[-10:]
+# plt.barh([i for i,j in data], [j for i, j in data])
+plt.pie([j for i,j in data], labels=[i for i, j in data],autopct='%1.1f%%')
+# plt.legend()
+# plt.show()
+plt.savefig('pie_South_America_pass.png', dpi=300)
+
+# Bar Graph : Passengers of Oceania countries
+
+continent = 'Oceania'
+df=pd.read_csv("Airline Dataset.csv", parse_dates=["Departure Date"])
+df_continent = df[df['Continents'] == continent]
+
+x = list(set(list(df_continent['Country Name'])))
+y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
+data = [(i,j) for i,j in zip(x, y)]
+data = sorted(data, key=lambda x:x[1])[-10:]
+plt.barh([i for i,j in data], [j for i, j in data])
+# plt.pie([j for i,j in data], labels=[i for i, j in data],autopct='%1.1f%%')
+# plt.legend()
+# plt.show()
+plt.savefig('bar_Oceania_pass.png', dpi=300)
+
+# Pie Chart : Passengers of Asian countries
+
+continent = 'Oceania'
+df=pd.read_csv("Airline Dataset.csv", parse_dates=["Departure Date"])
+df_continent = df[df['Continents'] == continent]
+
+x = list(set(list(df_continent['Country Name'])))
+y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
+data = [(i,j) for i,j in zip(x, y)]
+data = sorted(data, key=lambda x:x[1])[-10:]
+# plt.barh([i for i,j in data], [j for i, j in data])
+plt.pie([j for i,j in data], labels=[i for i, j in data],autopct='%1.1f%%')
+# plt.legend()
+# plt.show()
+plt.savefig('pie_Oceania_pass.png', dpi=300)
+
+
+# Bar Graph : Passengers of African countries
+
+continent = 'Africa'
+df=pd.read_csv("Airline Dataset.csv", parse_dates=["Departure Date"])
+df_continent = df[df['Continents'] == continent]
+
+x = list(set(list(df_continent['Country Name'])))
+y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
+data = [(i,j) for i,j in zip(x, y)]
+data = sorted(data, key=lambda x:x[1])[-10:]
+plt.barh([i for i,j in data], [j for i, j in data])
+# plt.pie([j for i,j in data], labels=[i for i, j in data],autopct='%1.1f%%')
+# plt.legend()
+# plt.show()
+plt.savefig('bar_Africa_pass.png', dpi=300)
+
+# Pie Chart : Passengers of African countries
+
+continent = 'Africa'
+df=pd.read_csv("Airline Dataset.csv", parse_dates=["Departure Date"])
+df_continent = df[df['Continents'] == continent]
+
+x = list(set(list(df_continent['Country Name'])))
+y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
+data = [(i,j) for i,j in zip(x, y)]
+data = sorted(data, key=lambda x:x[1])[-10:]
+# plt.barh([i for i,j in data], [j for i, j in data])
+plt.pie([j for i,j in data], labels=[i for i, j in data],autopct='%1.1f%%')
+# plt.legend()
+# plt.show()
+plt.savefig('pie_Africa_pass.png', dpi=300)
 
 _, ax = plt.subplots(figsize=(12, 12), ncols=2, nrows=2,  )
 columns = [key for key, value in df.nunique().to_dict().items() if value < 10]
@@ -102,7 +295,7 @@ plt.xlabel('Flight Status')
 plt.ylabel('Age')
 plt.savefig("Graph9.png", bbox_inches='tight')
 # # plt.show()
-'''
+
 # #Create a line plot for Average Age vs. Flight Status
 average_age = df.groupby('Flight Status')['Age'].mean().reset_index()
 plt.figure(figsize=(12, 6))
@@ -112,8 +305,7 @@ plt.xlabel('Flight Status')
 plt.ylabel('Average Age')
 plt.savefig("Graph10.png", bbox_inches='tight')
 # # plt.show()
-'''
-'''
+
 # # Create a line plot for the count of flights based on 'Departure Date' and Flight Status
 df['Departure Date'] = pd.to_datetime(df['Departure Date'])
 plt.figure(figsize=(14, 8))
@@ -124,8 +316,7 @@ plt.ylabel('Count of Flights')
 plt.legend(title='Flight Status')
 plt.savefig("Graph11.png", bbox_inches='tight')
 # #plt.show()
-'''
-'''
+
 plt.figure(figsize=(12, 6))
 sns.scatterplot(x='Departure Date', y='Age', data=df, hue='Flight Status', palette='viridis', s=100)
 plt.title('Age vs. Departure Date')
@@ -134,8 +325,7 @@ plt.ylabel('Age')
 plt.legend(title='Flight Status')
 plt.savefig("Graph12.png", bbox_inches='tight')
 # #plt.show()
-'''
-'''
+
 # # Create a line plot for Average Age vs. Departure Date
 average_age = df.groupby('Departure Date')['Age'].mean().reset_index()
 plt.figure(figsize=(14, 8))
@@ -145,8 +335,18 @@ plt.xlabel('Departure Date')
 plt.ylabel('Average Age')
 plt.savefig("Graph13.png", bbox_inches='tight')
 # #plt.show()
-'''
+
 # #end
-# columns = [key for key, value in df.nunique().to_dict().items() if value < 10]
-# df[columns[0]].value_counts().plot(ax=ax.ravel()[index] ,kind='bar', legend=True)
+
+# continent = 'Asia'
+# df=pd.read_csv("Airline Dataset.csv", parse_dates=["Departure Date"])
+# df_continent = df[df['Continents'] == continent]
+
+# x = list(set(list(df_continent['Country Name'])))
+# y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
+# data = [(i,j) for i,j in zip(x, y)]
+# data = sorted(data, key=lambda x:x[1])[-10:]
+# # plt.barh([i for i,j in data], [j for i, j in data])
+# plt.pie([j for i,j in data], labels=[i for i, j in data],autopct='%1.1f%%')
+# # plt.legend()
 # plt.show()

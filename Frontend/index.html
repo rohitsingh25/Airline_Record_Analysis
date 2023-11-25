@@ -49,20 +49,83 @@
                 <br>
                 <pre>
                   <code class="language-python">
-                    <span class="comment"># Python code example</span>
-                    <span class="keyword">def</span> <span class="function">hello</span><span class="bracket">(</span><span class="bracket">)</span><span class="bracket">:</span>
+                    <span class="comment"># Python code </span>
+                    <!-- <span class="keyword">def</span> <span class="function">hello</span><span class="bracket">(</span><span class="bracket">)</span><span class="bracket">:</span>
                         <span class="keyword">print</span><span class="bracket">(</span><span class="string">'Hello, World!'</span><span class="bracket">)</span>
-                    <span class="function">hello</span><span class="bracket">(</span><span class="bracket">)</span>
+                    <span class="function">hello</span><span class="bracket">(</span><span class="bracket">)</span> -->
 
-                    def print_matrix(matrix):
-                        for row in matrix:
-                            for element in row:
-                                print(element, end=" ")
-                            print()
+                    <span class="keyword">import</span> numpy as np # linear algebra
+                    <span class="keyword">import</span> pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+                    <span class="keyword">import</span> matplotlib.pyplot as plt
+                    <span class="keyword">import</span> seaborn as sns
+                    <span class="keyword">import</span> plotly.express as px
+                    <span class="keyword">import</span> os
 
-                    # Example usage
-                    matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-                    print_matrix(matrix)
+                    
+                    <span class="comment"># #Reading the dataset </span>
+                    
+
+                    df=pd.read_csv("Airline_Dataset.csv", parse_dates=["Departure Date"])
+                    df.head(11)
+                    df.info()
+                    df.nunique()
+                    df.isnull().sum().sum() #Checking if Null value is present
+
+                    df['Gender']=df['Gender'].astype('category')
+                    df['Gender'].unique()
+                    df['Age']=df['Age'].astype(int)
+
+                    # Pie chart of passengers 
+
+                    count_1 = df['Gender'].value_counts()
+                    count_1
+                    fig = px.pie(count_1, values=count_1.values, names=count_1.index,title= "Distribution of passengers accross Genders")
+                    fig.write_image("Graph1.png")
+                    # fig.show()
+
+                    # #Bar chart of passengers
+
+                    count_2 = df['Country Name'].value_counts()
+                    fig = px.bar(count_2.head(10), x=count_2.head(10).index, y=count_2.head(10).values, title='Top 10 Airport Countries with Most Passengers',labels={'x': 'Country', 'y': 'Passenger Count'})
+                    fig.write_image("Graph2.png")
+                    # fig.show()
+
+                    <!-- # pie chart based on continents
+                    # #Airport Country and continent wise passenger 
+
+                    df_c= pd.DataFrame(count_2).reset_index().rename(columns={"index": "value", 0: "count"})
+                    con=df.loc[:,['Country Name','Continents']]
+                    con=con.drop_duplicates()
+                    new_df=pd.merge_ordered(df_c,con, fill_method= 'ffill', on= 'Country Name')
+                    fig = px.sunburst(new_df, path=['Continents', 'Country Name'], values='count',
+                                      color='count', 
+                                      color_continuous_scale='RdBu',
+                                      color_continuous_midpoint=np.average(new_df['count'], weights=new_df['count']),
+                                      title= "Airport Country and Continent wise Passengers")
+                    fig.write_image("Graph3.png")
+                    # #fig.show()
+                    # #Histogram of Passenger Age 
+                    fig = px.histogram(df, x='Age', nbins=20, color='Gender',
+                                      title='Histogram of Passengers Age',
+                                      labels={'Age': 'Passengers Age'})
+                    fig.write_image("Graph4.png")
+                    # #fig.show() -->
+
+                    # #Distribution Across Nationality
+                    nationality = pd.DataFrame(df['Nationality'].value_counts()).reset_index()
+                    nationality = nationality.head(20)
+                    nationality.sort_values(by='Nationality', ascending=False, inplace=True)
+                    fig=px.pie(nationality, values='count', names='Nationality', hole=0.5, title='Distribution Accross Nationality')
+                    fig.write_image("Graph7.png")
+                    # # fig.show()
+                    x = list(set(list(df_continent['Country Name'])))
+                    y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
+                    data = [(i,j) for i,j in zip(x, y)]
+                    data = sorted(data, key=lambda x:x[1])[-10:]
+                    # plt.barh([i for i,j in data], [j for i, j in data])
+                    plt.pie([j for i,j in data], labels=[i for i, j in data],autopct='%1.1f%%')
+                    # plt.legend()
+                    plt.show()
 
                   </code>
                 </pre>
