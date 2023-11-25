@@ -233,3 +233,50 @@ h4 span{
   .download-btn:hover {
     background-color: #0056b3;
   }
+  .list-container {
+    width: 75%;
+    margin: 20px auto; /* Centers the container */
+    border-radius: 5%;
+  }
+  .item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    border-radius: 5%;
+    overflow: hidden; /* Hide overflow to contain button within the item */
+  }
+  .view-btn {
+    position: absolute;
+    border-radius: 5%;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    padding: 6px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  p {
+    width: 100%;
+    max-width: 75%; /* Limits the width to 75% */
+    margin: 0 auto; /* Centers the text */
+    border: 1px solid #ccc; /* Just for visualization */
+    padding: 10px; /* Just for visualization */
+  }
+  .code-container {
+    width: 75%;
+    margin: 20px auto; /* Centers the container */
+  }
+  pre {
+    background-color: #1a1a1a; /* Set code block background color */
+    color: white; /* Set code block text color */
+    padding: 15px;
+    overflow-x: auto; /* Enable horizontal scroll if needed */
+  }
+  /* Python syntax highlighting - example */
+  .keyword { color: #569cd6; } /* Python keywords color */
+  .string { color: #ce9178; } /* Strings color */
+  .comment { color: #608b4e; } /* Comments color */
+  /* Add more classes for other syntax elements */
