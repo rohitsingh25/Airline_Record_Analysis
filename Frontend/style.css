@@ -50,6 +50,13 @@ footer a ,nav a{
     padding: 1.2vw 2vw;
     float: left;
 }
+#paratext
+{
+    text-align: left;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: large;
+    /* word-spacing: 10%; */
+}
 footer a{
     font-size: 1.2vw;
 }
