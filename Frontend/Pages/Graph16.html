@@ -25,13 +25,9 @@
             text-align: center;
         }
 
-        #explanation {
-            margin-bottom: 20px;
-        }
-
         #graph-image {
             width: 100%; /* Ensure the image takes up the full width of its container */
-            max-width: 600px; /* Set a maximum width for the image */
+            max-width: 900px; /* Set a maximum width for the image */
         }
 
         #download-btn, #back-btn {
@@ -54,16 +50,20 @@
 <body>
 
 <div id="graph-container">
-    <!-- Explanation -->
-
-    <!-- Your graph goes here -->
-    <img id="graph-image" src="Graph16.png" alt="Graph">  
-    <!-- <a href="Graph1.png" download>Download</a> -->
+    
+    <img id="graph-image" src="../img/bar_Europe_pass.png" alt="Graph">  
+    
     <h2>Graph Explanation</h2>
-        <p>This is where you can provide an explanation of the graph and its significance.</p>
+
+        <p>This graph, "Distribution of Passengers Across Genders," shows how passengers are distributed by gender in the provided airline dataset. Passenger details including departure dates, ages, and nationalities are included in the data, which is taken from a "Airline Dataset Updated.csv" file. Plotly Express was used to make this pie chart, which shows the percentage of passengers in each gender category. The 'Gender' column is transformed into a categorical variable and the dataset is preprocessed to handle null values. The distribution of other categorical variables with fewer unique values is displayed in the bar charts that go with it. This exploratory visualization offers a brief synopsis of the gender makeup of the dataset and a fast glimpse into the gender distribution among passengers.</p>
+
     <button id="download-btn" type="button" data-download="graph-image">Download</button>
-    <!-- Back Button -->
-    <a id="back-btn" href="main-page.html">Back</a>
+    
+
+    <!-- <a id="back-btn" href="../index.html">Back</a> -->
+    <button id="back-btn" onclick="window.location.href='../index.html#returnFromGraphs'">Back</button>
+
+
     <script>
         const downloadLinks=document.querySelectorAll("[data-download]");
         downloadLinks.forEach(button=>{
@@ -86,4 +86,3 @@
 
 </body>
 </html>
-+
