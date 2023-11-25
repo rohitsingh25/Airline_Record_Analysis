@@ -54,18 +54,18 @@
                         <span class="keyword">print</span><span class="bracket">(</span><span class="string">'Hello, World!'</span><span class="bracket">)</span>
                     <span class="function">hello</span><span class="bracket">(</span><span class="bracket">)</span> -->
 
-                    <span class="keyword">import</span> numpy as np # linear algebra
-                    <span class="keyword">import</span> pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+                    <span class="keyword">import</span> numpy as np <span class="comment"># linear algebra</span>
+                    <span class="keyword">import</span> pandas as pd <span class="comment"># data processing, CSV file I/O (e.g. pd.read_csv)</span>
                     <span class="keyword">import</span> matplotlib.pyplot as plt
                     <span class="keyword">import</span> seaborn as sns
                     <span class="keyword">import</span> plotly.express as px
                     <span class="keyword">import</span> os
 
-                    
-                    <span class="comment"># #Reading the dataset </span>
+
+                    <span class="comment"># Reading the dataset </span>
                     
 
-                    df=pd.read_csv("Airline_Dataset.csv", parse_dates=["Departure Date"])
+                    df=pd.read_csv(<span class="string">"Airline_Dataset.csv"</span>, parse_dates=["Departure Date"])
                     df.head(11)
                     df.info()
                     df.nunique()
@@ -75,7 +75,9 @@
                     df['Gender'].unique()
                     df['Age']=df['Age'].astype(int)
 
-                    # Pie chart of passengers 
+                    
+
+                    <span class="comment"># Pie chart of passengers </span>
 
                     count_1 = df['Gender'].value_counts()
                     count_1
@@ -83,7 +85,7 @@
                     fig.write_image("Graph1.png")
                     # fig.show()
 
-                    # #Bar chart of passengers
+                    <span class="comment"># #Bar chart of passengers</span>
 
                     count_2 = df['Country Name'].value_counts()
                     fig = px.bar(count_2.head(10), x=count_2.head(10).index, y=count_2.head(10).values, title='Top 10 Airport Countries with Most Passengers',labels={'x': 'Country', 'y': 'Passenger Count'})
@@ -111,7 +113,9 @@
                     fig.write_image("Graph4.png")
                     # #fig.show() -->
 
-                    # #Distribution Across Nationality
+                    
+                    <span class="comment"># Distribution Across Nationality</span>
+
                     nationality = pd.DataFrame(df['Nationality'].value_counts()).reset_index()
                     nationality = nationality.head(20)
                     nationality.sort_values(by='Nationality', ascending=False, inplace=True)
@@ -166,11 +170,13 @@
                 <b>Objective : </b>
                 <br>
                 <br>
-                &nbsp; &nbsp;&nbsp; &nbsp;Analyzing passenger behavior and preferences to optimize travel experiences.
+                <!-- &nbsp; &nbsp;&nbsp; &nbsp; -->
+                Analyzing passenger behavior and preferences to optimize travel experiences.
                 <br>
                 Evaluating pilot performance and flight operations to enhance safety and efficiency.
                 <br>
                 Identifying trends in flight statuses and delays for operational improvements.
+                <br>
                 Data Preprocessing We perform some data preprocessing steps, including
                 data type conversion and exploring categorical data.
                 <br>
@@ -371,6 +377,15 @@
                         <div class="item">
                           <span class="alignGraph"><b>Graph XXIII :</b> Pie-Chart of Passenger Distribution in South America</span>
                           <a href="Pages/Graph23.html" class="view-btn">View</a>
+                          <!-- <button class="view-btn">View</button> -->
+                        </div>
+
+                        <!-- Download Generated Graphs PDF --> 
+                        <div class="item" >
+                          <span class="alignGraph"><b>Generated Graphs PDF</b></span>
+                          <!-- <a href="Pages/Graph22.html" class="view-btn">D</a> -->
+                          <a href="Reports/Generated_Graphs.pdf" target="blank" download="Generated_Graphs.pdf" class="view-btn">Download</a>
+                  
                           <!-- <button class="view-btn">View</button> -->
                         </div>
                         <!-- Add more items as needed -->
