@@ -262,7 +262,7 @@ h4 span{
     width: 100%;
     max-width: 75%; /* Limits the width to 75% */
     margin: 0 auto; /* Centers the text */
-    border: 1px solid #ccc; /* Just for visualization */
+    /*border: 1px solid #ccc; */ /* Just for visualization */
     padding: 10px; /* Just for visualization */
   }
   .code-container {
@@ -281,3 +281,7 @@ h4 span{
   .string { color: #ce9178; } /* Strings color */
   .comment { color: #608b4e; } /* Comments color */
   /* Add more classes for other syntax elements */
+  #alignGraph
+    {
+        text-align: left;
+    }
