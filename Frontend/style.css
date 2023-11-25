@@ -52,7 +52,7 @@ footer a ,nav a{
 }
 #paratext
 {
-    text-align: left;
+    text-align: justify;
     font-family: 'Courier New', Courier, monospace;
     font-size: large;
     /* word-spacing: 10%; */
@@ -252,11 +252,12 @@ h4 span{
     border-radius: 5%;
   }
   .item {
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
     padding: 10px;
     margin-bottom: 10px;
     position: relative;
     border-radius: 5%;
+    text-align: left;
     overflow: hidden; /* Hide overflow to contain button within the item */
   }
   .view-btn {

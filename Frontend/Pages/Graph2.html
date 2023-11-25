@@ -63,7 +63,7 @@
         <p>This is where you can provide an explanation of the graph and its significance.</p>
     <button id="download-btn" type="button" data-download="graph-image">Download</button>
     <!-- Back Button -->
-    <a id="back-btn" href="main-page.html">Back</a>
+    <a id="back-btn" href="../index.html#returnFromGraphs">Back</a>
     <script>
         const downloadLinks=document.querySelectorAll("[data-download]");
         downloadLinks.forEach(button=>{
@@ -72,7 +72,7 @@
             const a=document.createElement("a");
 
             a.href=image.src;
-            a.download="";
+            a.download="../img/Graph2.png";
             a.style.display="none";
 
             button.addEventListener("click",()=>{
