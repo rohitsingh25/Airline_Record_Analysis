@@ -17,24 +17,24 @@ df['Gender']=df['Gender'].astype('category')
 df['Gender'].unique()
 df['Age']=df['Age'].astype(int)
 
-_, ax = plt.subplots(figsize=(12, 12), ncols=2, nrows=2,  )
-columns = [key for key, value in df.nunique().to_dict().items() if value < 10]
+# Pie chart of passengers 
 
-for index, column in enumerate(columns):
-    df[column].value_counts().plot(ax=ax.ravel()[index] ,kind='bar', legend=True)
 count_1 = df['Gender'].value_counts()
 count_1
-
 fig = px.pie(count_1, values=count_1.values, names=count_1.index,title= "Distribution of passengers accross Genders")
 fig.write_image("Graph1.png")
 # fig.show()
+
+# #Bar chart of passengers
 
 count_2 = df['Country Name'].value_counts()
 fig = px.bar(count_2.head(10), x=count_2.head(10).index, y=count_2.head(10).values, title='Top 10 Airport Countries with Most Passengers',labels={'x': 'Country', 'y': 'Passenger Count'})
 fig.write_image("Graph2.png")
 # fig.show()
 
+# pie chart based on continents
 # #Airport Country and continent wise passenger 
+
 df_c= pd.DataFrame(count_2).reset_index().rename(columns={"index": "value", 0: "count"})
 con=df.loc[:,['Country Name','Continents']]
 con=con.drop_duplicates()
@@ -46,6 +46,18 @@ fig = px.sunburst(new_df, path=['Continents', 'Country Name'], values='count',
                   title= "Airport Country and Continent wise Passengers")
 fig.write_image("Graph3.png")
 # #fig.show()
+
+
+
+_, ax = plt.subplots(figsize=(12, 12), ncols=2, nrows=2,  )
+columns = [key for key, value in df.nunique().to_dict().items() if value < 10]
+
+for index, column in enumerate(columns):
+    df[column].value_counts().plot(ax=ax.ravel()[index] ,kind='bar', legend=True)
+
+
+
+
 
 # #Histogram of Passenger Age 
 fig = px.histogram(df, x='Age', nbins=20, color='Gender',
@@ -135,3 +147,6 @@ plt.savefig("Graph13.png", bbox_inches='tight')
 # #plt.show()
 '''
 # #end
+# columns = [key for key, value in df.nunique().to_dict().items() if value < 10]
+# df[columns[0]].value_counts().plot(ax=ax.ravel()[index] ,kind='bar', legend=True)
+# plt.show()
