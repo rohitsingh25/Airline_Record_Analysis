@@ -7,7 +7,20 @@
     <title>Home</title>
     <link rel="stylesheet" href="style.css">
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
-</head>
+    <script>
+      document.getElementById('openTabs').addEventListener('click', function(e) {
+        e.preventDefault(); // Prevents the default behavior of the anchor tag
+        
+        // URLs for the two tabs
+        var url1 = 'https://in.linkedin.com/in/rohit1225/es?trk=people-guest_people_search-card&original_referer=https%3A%2F%2Fwww.google.com%2F';
+        var url2 = 'https://in.linkedin.com/in/bharat-patidar-a74a8b1b0';
+      
+        // Open the two tabs
+        window.open(url1, '_blank');
+        window.open(url2, '_blank');
+      });
+      </script>
+  </head>
 <body>
     <header>
         <div class="banner"><h1> SOFTWARE LAB PROJECT  </h1></div>
@@ -450,7 +463,7 @@
     </main>
     <hr color=#333>
     <footer>
-        <a href="#" class="copyright flex-align-right menubtn"> &copy; 2023 | ROHIT SINGH YADAV & BHARAT PATIDAR</a>
+        <a href="#" id="openTabs" class="copyright flex-align-right menubtn"> &copy; 2023 | ROHIT SINGH YADAV & BHARAT PATIDAR</a>
     </footer>
     </body>
 </html>
