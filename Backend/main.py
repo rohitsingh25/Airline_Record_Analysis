@@ -4,35 +4,35 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
 import os
-for dirname, _, filenames in os.walk('/kaggle/input'):
-    for filename in filenames:
-        print(os.path.join(dirname, filename))
-df=pd.read_csv("Airline Dataset Updated.csv", parse_dates=["Departure Date"])
+
+# #Reading the dataset
+
+df=pd.read_csv("Airline_Dataset.csv", parse_dates=["Departure Date"])
 df.head(11)
 df.info()
 df.nunique()
 df.isnull().sum().sum() #Checking if Null value is present
+
 df['Gender']=df['Gender'].astype('category')
 df['Gender'].unique()
 df['Age']=df['Age'].astype(int)
+
 _, ax = plt.subplots(figsize=(12, 12), ncols=2, nrows=2,  )
 columns = [key for key, value in df.nunique().to_dict().items() if value < 10]
+
 for index, column in enumerate(columns):
     df[column].value_counts().plot(ax=ax.ravel()[index] ,kind='bar', legend=True)
 count_1 = df['Gender'].value_counts()
 count_1
+
 fig = px.pie(count_1, values=count_1.values, names=count_1.index,title= "Distribution of passengers accross Genders")
 fig.write_image("Graph1.png")
 # fig.show()
 
-
 count_2 = df['Country Name'].value_counts()
-fig = px.bar(count_2.head(10), x=count_2.head(10).index, y=count_2.head(10).values,
-             title='Top 10 Airport Countries with Most Passengers',
-             labels={'x': 'Country', 'y': 'Passenger Count'})
+fig = px.bar(count_2.head(10), x=count_2.head(10).index, y=count_2.head(10).values, title='Top 10 Airport Countries with Most Passengers',labels={'x': 'Country', 'y': 'Passenger Count'})
 fig.write_image("Graph2.png")
 # fig.show()
-
 
 # #Airport Country and continent wise passenger 
 df_c= pd.DataFrame(count_2).reset_index().rename(columns={"index": "value", 0: "count"})
@@ -90,7 +90,7 @@ plt.xlabel('Flight Status')
 plt.ylabel('Age')
 plt.savefig("Graph9.png", bbox_inches='tight')
 # # plt.show()
-
+'''
 # #Create a line plot for Average Age vs. Flight Status
 average_age = df.groupby('Flight Status')['Age'].mean().reset_index()
 plt.figure(figsize=(12, 6))
@@ -100,8 +100,8 @@ plt.xlabel('Flight Status')
 plt.ylabel('Average Age')
 plt.savefig("Graph10.png", bbox_inches='tight')
 # # plt.show()
-
-
+'''
+'''
 # # Create a line plot for the count of flights based on 'Departure Date' and Flight Status
 df['Departure Date'] = pd.to_datetime(df['Departure Date'])
 plt.figure(figsize=(14, 8))
@@ -112,7 +112,8 @@ plt.ylabel('Count of Flights')
 plt.legend(title='Flight Status')
 plt.savefig("Graph11.png", bbox_inches='tight')
 # #plt.show()
-
+'''
+'''
 plt.figure(figsize=(12, 6))
 sns.scatterplot(x='Departure Date', y='Age', data=df, hue='Flight Status', palette='viridis', s=100)
 plt.title('Age vs. Departure Date')
@@ -121,7 +122,8 @@ plt.ylabel('Age')
 plt.legend(title='Flight Status')
 plt.savefig("Graph12.png", bbox_inches='tight')
 # #plt.show()
-
+'''
+'''
 # # Create a line plot for Average Age vs. Departure Date
 average_age = df.groupby('Departure Date')['Age'].mean().reset_index()
 plt.figure(figsize=(14, 8))
@@ -131,5 +133,5 @@ plt.xlabel('Departure Date')
 plt.ylabel('Average Age')
 plt.savefig("Graph13.png", bbox_inches='tight')
 # #plt.show()
-
+'''
 # #end
