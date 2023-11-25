@@ -15,7 +15,9 @@ body {
 }
 header{
     padding: 20px;
-    background-color: rgb(17, 124, 143);
+    /* background-color: rgb(17, 124, 143); */
+    font-family: 'Courier New', Courier, monospace;
+    background-color: hsl(0, 5%, 92%);
     /* position: relative; */
     /* overflow: hidden; */
 
