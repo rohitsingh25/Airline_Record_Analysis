@@ -268,6 +268,7 @@ h4 span{
   .code-container {
     width: 75%;
     margin: 20px auto; /* Centers the container */
+    text-align: left;
   }
   pre {
     background-color: #1a1a1a; /* Set code block background color */
