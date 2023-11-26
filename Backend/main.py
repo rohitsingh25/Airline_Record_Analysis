@@ -39,6 +39,7 @@ df_c= pd.DataFrame(count_2).reset_index().rename(columns={"index": "value", 0: "
 con=df.loc[:,['Country Name','Continents']]
 con=con.drop_duplicates()
 new_df=pd.merge_ordered(df_c,con, fill_method= 'ffill', on= 'Country Name')
+
 fig = px.sunburst(new_df, path=['Continents', 'Country Name'], values='count',
                   color='count', 
                   color_continuous_scale='RdBu',
@@ -57,6 +58,7 @@ df_continent = df[df['Continents'] == continent]
 x = list(set(list(df_continent['Country Name'])))
 y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
 data = [(i,j) for i,j in zip(x, y)]
+
 data = sorted(data, key=lambda x:x[1])[-10:]
 plt.barh([i for i,j in data], [j for i, j in data])
 # plt.pie([j for i,j in data], labels=[i for i, j in data],autopct='%1.1f%%')
@@ -72,6 +74,7 @@ df_continent = df[df['Continents'] == continent]
 
 x = list(set(list(df_continent['Country Name'])))
 y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
+
 data = [(i,j) for i,j in zip(x, y)]
 data = sorted(data, key=lambda x:x[1])[-10:]
 # plt.barh([i for i,j in data], [j for i, j in data])
@@ -89,6 +92,7 @@ df_continent = df[df['Continents'] == continent]
 
 x = list(set(list(df_continent['Country Name'])))
 y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
+
 data = [(i,j) for i,j in zip(x, y)]
 data = sorted(data, key=lambda x:x[1])[-10:]
 plt.barh([i for i,j in data], [j for i, j in data])
@@ -103,6 +107,7 @@ df_continent = df[df['Continents'] == continent]
 x = list(set(list(df_continent['Country Name'])))
 y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
 data = [(i,j) for i,j in zip(x, y)]
+
 data = sorted(data, key=lambda x:x[1])[-10:]
 plt.pie([j for i,j in data], labels=[i for i, j in data],autopct='%1.1f%%')
 plt.savefig('pie_North_America_pass.png', dpi=300)
@@ -129,6 +134,7 @@ df_continent = df[df['Continents'] == continent]
 x = list(set(list(df_continent['Country Name'])))
 y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
 data = [(i,j) for i,j in zip(x, y)]
+
 data = sorted(data, key=lambda x:x[1])[-10:]
 plt.pie([j for i,j in data], labels=[i for i, j in data],autopct='%1.1f%%')
 plt.savefig('pie_Europe_pass.png', dpi=300)
@@ -150,6 +156,7 @@ plt.savefig('bar_South_America_pass.png', dpi=300)
 
 continent = 'South America'
 df=pd.read_csv("Airline_Dataset.csv", parse_dates=["Departure Date"])
+
 df_continent = df[df['Continents'] == continent]
 
 x = list(set(list(df_continent['Country Name'])))
@@ -276,3 +283,7 @@ plt.savefig("Graph13.png", bbox_inches='tight')
 
 
 # #end
+
+#plt.show()
+
+#end
