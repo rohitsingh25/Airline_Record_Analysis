@@ -34,6 +34,7 @@ fig.write_image("Graph2.png")
 
 # pie chart based on continents
 # #Airport Country and continent wise passenger 
+# to show hierarchial data 
 
 df_c= pd.DataFrame(count_2).reset_index().rename(columns={"index": "value", 0: "count"})
 con=df.loc[:,['Country Name','Continents']]
@@ -47,6 +48,53 @@ fig = px.sunburst(new_df, path=['Continents', 'Country Name'], values='count',
                   title= "Airport Country and Continent wise Passengers")
 fig.write_image("Graph3.png")
 # #fig.show()
+
+# #Histogram of Passenger Age 
+fig = px.histogram(df, x='Age', nbins=20, color='Gender',
+                   title='Histogram of Passengers Age',
+                   labels={'Age': 'Passengers Age'})
+fig.write_image("Graph4.png")
+
+
+# #Count vs Age with 4 different graphs
+plt.figure(figsize=(18,10))
+sns.countplot(data=df,x='Age')
+plt.xticks(rotation=90)
+plt.savefig("Graph5.png", bbox_inches='tight')
+
+
+# #Distribution Across Nationality
+nationality = pd.DataFrame(df['Nationality'].value_counts()).reset_index()
+nationality = nationality.head(20)
+nationality.sort_values(by='Nationality', ascending=False, inplace=True)
+fig=px.pie(nationality, values='count', names='Nationality', hole=0.5, title='Distribution Accross Nationality')
+fig.write_image("Graph7.png")
+
+# #Pie Chart of on time cancelled and delayed flights
+fl_stat = pd.DataFrame(df['Flight Status'].value_counts()).reset_index()
+fig = px.pie(fl_stat, values='count', names='Flight Status', color_discrete_sequence=px.colors.sequential.RdBu)
+fig.write_image("Graph8.png")
+
+
+# # Create a line plot for the count of flights based on 'Departure Date' and Flight Status
+df['Departure Date'] = pd.to_datetime(df['Departure Date'])
+plt.figure(figsize=(14, 8))
+sns.lineplot(x='Departure Date', y='Count', hue='Flight Status', data=df.groupby(['Departure Date', 'Flight Status']).size().reset_index(name='Count'), palette='Set2')
+plt.title('Flight Status based on Departure Date')
+plt.xlabel('Departure Date')
+plt.ylabel('Count of Flights')
+plt.legend(title='Flight Status')
+plt.savefig("Graph11.png", bbox_inches='tight')
+
+# # Create a line plot for Average Age vs. Departure Date
+average_age = df.groupby('Departure Date')['Age'].mean().reset_index()
+plt.figure(figsize=(14, 8))
+sns.lineplot(x='Departure Date', y='Age', data=average_age, marker='o', color='blue')
+plt.title('Average Age Over Time')
+plt.xlabel('Departure Date')
+plt.ylabel('Average Age')
+plt.savefig("Graph13.png", bbox_inches='tight')
+
 
 
 # Bar Graph : Passengers of Asian countries
@@ -220,19 +268,19 @@ plt.pie([j for i,j in data], labels=[i for i, j in data],autopct='%1.1f%%')
 plt.savefig('pie_Africa_pass.png', dpi=300)
 
 df=pd.read_csv("Airline_Dataset.csv", parse_dates=["Departure Date"])
-df.head(11)
-df.info()
-df.nunique()
-df.isnull().sum().sum() #Checking if Null value is present
+# df.head(11)
+# df.info()
+# df.nunique()
+# df.isnull().sum().sum() #Checking if Null value is present
 
-df['Gender']=df['Gender'].astype('category')
-df['Gender'].unique()
-df['Age']=df['Age'].astype(int)
-_, ax = plt.subplots(figsize=(12, 12), ncols=2, nrows=2,  )
-columns = [key for key, value in df.nunique().to_dict().items() if value < 10]
+# df['Gender']=df['Gender'].astype('category')
+# df['Gender'].unique()
+# df['Age']=df['Age'].astype(int)
+# _, ax = plt.subplots(figsize=(12, 12), ncols=2, nrows=2,  )
+# columns = [key for key, value in df.nunique().to_dict().items() if value < 10]
 
-for index, column in enumerate(columns):
-    df[column].value_counts().plot(ax=ax.ravel()[index] ,kind='bar', legend=True)
+# for index, column in enumerate(columns):
+#     df[column].value_counts().plot(ax=ax.ravel()[index] ,kind='bar', legend=True)
 
 
 # #Histogram of Passenger Age 
@@ -242,37 +290,22 @@ fig = px.histogram(df, x='Age', nbins=20, color='Gender',
 fig.write_image("Graph4.png")
 
 
-# #Count vs Age with 4 different graphs
-plt.figure(figsize=(18,10))
-sns.countplot(data=df,x='Age')
-plt.xticks(rotation=90)
-plt.savefig("Graph5.png", bbox_inches='tight')
 
-
-# #Distribution Across Nationality
-nationality = pd.DataFrame(df['Nationality'].value_counts()).reset_index()
-nationality = nationality.head(20)
-nationality.sort_values(by='Nationality', ascending=False, inplace=True)
-fig=px.pie(nationality, values='count', names='Nationality', hole=0.5, title='Distribution Accross Nationality')
-fig.write_image("Graph7.png")
-
-# #Pie Chart of on time cancelled and delayed flights
-fl_stat = pd.DataFrame(df['Flight Status'].value_counts()).reset_index()
-fig = px.pie(fl_stat, values='count', names='Flight Status', color_discrete_sequence=px.colors.sequential.RdBu)
-fig.write_image("Graph8.png")
-
+#plt.show()
 
 # # Create a line plot for the count of flights based on 'Departure Date' and Flight Status
 df['Departure Date'] = pd.to_datetime(df['Departure Date'])
 plt.figure(figsize=(14, 8))
 sns.lineplot(x='Departure Date', y='Count', hue='Flight Status', data=df.groupby(['Departure Date', 'Flight Status']).size().reset_index(name='Count'), palette='Set2')
-plt.title('Flight Status based on Departure Date')
+plt.title('Count of Flights Over Time Based on Flight Status')
 plt.xlabel('Departure Date')
 plt.ylabel('Count of Flights')
 plt.legend(title='Flight Status')
 plt.savefig("Graph11.png", bbox_inches='tight')
+plt.show()
 
-# # Create a line plot for Average Age vs. Departure Date
+
+# Create a line plot for Average Age vs. Departure Date
 average_age = df.groupby('Departure Date')['Age'].mean().reset_index()
 plt.figure(figsize=(14, 8))
 sns.lineplot(x='Departure Date', y='Age', data=average_age, marker='o', color='blue')
@@ -280,10 +313,6 @@ plt.title('Average Age Over Time')
 plt.xlabel('Departure Date')
 plt.ylabel('Average Age')
 plt.savefig("Graph13.png", bbox_inches='tight')
-
-
-# #end
-
-#plt.show()
+plt.show()
 
 #end
