@@ -1,0 +1,50 @@
+# Airline Data Analysis Configuration File
+# This file contains all input/output file paths and directory configurations
+
+# Input Data Configuration
+input:
+  dataset_path: "backend/data/Airline_Dataset.csv"
+  parse_dates: ["Departure Date"]
+
+# Output Configuration
+output:
+  # Directory where all generated graphs will be saved (also copied to frontend/img)
+  graphs_dir: "backend/graphs"
+  
+  # Graph file names
+  graphs:
+    gender_distribution: "Graph1.png"
+    top_countries_bar: "Graph2.png"
+    continent_sunburst: "Graph3.png"
+    age_histogram: "Graph4.png"
+    age_count_bar: "Graph5.png"
+    nationality_pie: "Graph7.png"
+    flight_status_pie: "Graph8.png"
+    flight_trends_line: "Graph11.png"
+    age_trends_line: "Graph13.png"
+    
+    # Regional analysis graphs
+    asia_bar: "bar_asia_pass.png"
+    asia_pie: "pie_asia_pass.png"
+    europe_bar: "bar_Europe_pass.png"
+    europe_pie: "pie_Europe_pass.png"
+    north_america_bar: "bar_North_America_pass.png"
+    north_america_pie: "pie_North_America_pass.png"
+    south_america_bar: "bar_South_America_pass.png"
+    south_america_pie: "pie_South_America_pass.png"
+    oceania_bar: "bar_Oceania_pass.png"
+    oceania_pie: "pie_Oceania_pass.png"
+    africa_bar: "bar_Africa_pass.png"
+    africa_pie: "pie_Africa_pass.png"
+
+# Figure settings
+figure_settings:
+  dpi: 300
+  large_figure_size: [14, 8]
+  xlarge_figure_size: [18, 10]
+
+# Analysis settings
+analysis:
+  top_n_countries: 10
+  top_n_nationalities: 20
+  age_bins: 20
