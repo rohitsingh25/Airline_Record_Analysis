@@ -5,6 +5,7 @@ import seaborn as sns
 import plotly.express as px
 import os
 import yaml
+import shutil
 
 # Load configuration from project root
 # Works when run from project root: python backend/main.py
@@ -16,6 +17,7 @@ with open(config_path, 'r') as f:
 # Extract configuration values and resolve paths from project root
 DATASET_PATH = os.path.join(project_root, config['input']['dataset_path'])
 GRAPHS_DIR = os.path.join(project_root, config['output']['graphs_dir'])
+IMG_DIR = os.path.join(project_root, 'frontend', 'img')
 GRAPH_NAMES = config['output']['graphs']
 DPI = config['figure_settings']['dpi']
 LARGE_FIG_SIZE = tuple(config['figure_settings']['large_figure_size'])
@@ -24,8 +26,9 @@ TOP_N_COUNTRIES = config['analysis']['top_n_countries']
 TOP_N_NATIONALITIES = config['analysis']['top_n_nationalities']
 AGE_BINS = config['analysis']['age_bins']
 
-# Ensure graphs directory exists
+# Ensure graphs and img directories exist
 os.makedirs(GRAPHS_DIR, exist_ok=True)
+os.makedirs(IMG_DIR, exist_ok=True)
 
 # #Reading the dataset
 
@@ -75,7 +78,7 @@ fig.write_image(os.path.join(GRAPHS_DIR, GRAPH_NAMES['continent_sunburst']))
 fig = px.histogram(df, x='Age', nbins=20, color='Gender',
                    title='Histogram of Passengers Age',
                    labels={'Age': 'Passengers Age'})
-fig.write_image("Graph4.png")
+fig.write_image(os.path.join(GRAPHS_DIR, GRAPH_NAMES['age_histogram']))
 
 
 # #Count vs Age with 4 different graphs
@@ -115,7 +118,7 @@ sns.lineplot(x='Departure Date', y='Age', data=average_age, marker='o', color='b
 plt.title('Average Age Over Time')
 plt.xlabel('Departure Date')
 plt.ylabel('Average Age')
-plt.savefig("Graph13.png", bbox_inches='tight')
+plt.savefig(os.path.join(GRAPHS_DIR, GRAPH_NAMES['age_trends_line']), bbox_inches='tight')
 
 
 
@@ -324,7 +327,7 @@ plt.xlabel('Departure Date')
 plt.ylabel('Count of Flights')
 plt.legend(title='Flight Status')
 plt.savefig(os.path.join(GRAPHS_DIR, GRAPH_NAMES['flight_trends_line']), bbox_inches='tight')
-plt.show()
+# plt.show()  # Disabled to prevent opening graph window
 
 
 # # Create a line plot for Average Age vs. Departure Date
@@ -335,6 +338,16 @@ plt.title('Average Age Over Time')
 plt.xlabel('Departure Date')
 plt.ylabel('Average Age')
 plt.savefig(os.path.join(GRAPHS_DIR, GRAPH_NAMES['age_trends_line']), bbox_inches='tight')
-plt.show()
+# plt.show()  # Disabled to prevent opening graph window
+
+# Copy all generated graph files to IMG_DIR
+for file in os.listdir(GRAPHS_DIR):
+    if file.lower().endswith((".png", ".jpg", ".jpeg", ".svg")):
+        src = os.path.join(GRAPHS_DIR, file)
+        dst = os.path.join(IMG_DIR, file)
+        try:
+            shutil.copy(src, dst)
+        except Exception as e:
+            print(f"Failed to copy {file} to img directory: {e}")
 
 #end
