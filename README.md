@@ -136,14 +136,14 @@ The project generates 23 comprehensive visualizations including:
 2. **Create and activate virtual environment**:
    ```bash
    # Create virtual environment
-   python -m venv airline_env
+   python -m venv venv
    
    # Activate virtual environment
    # On Linux/Mac:
-   source airline_env/bin/activate
+   source venv/bin/activate
    
    # On Windows:
-   # airline_env\Scripts\activate
+   # venv\Scripts\activate
    ```
 
 3. **Install dependencies**:
