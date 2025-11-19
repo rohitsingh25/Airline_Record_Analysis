@@ -26,6 +26,7 @@ This project analyzes airline passenger data to provide insights into travel pat
 - **Seaborn** (≥0.11.0) - Statistical data visualization
 - **Plotly** (≥5.0.0) - Interactive visualizations
 - **Kaleido** (≥0.2.1) - Static image export for Plotly
+- **PyYAML** (≥6.0) - Configuration file parsing
 
 ### Frontend
 - **HTML5** - Structure and content
@@ -39,6 +40,7 @@ Airline_Record_Analysis/
 ├── README.md                # Project documentation
 ├── requirements.txt         # Python dependencies
 ├── .gitignore              # Git ignore rules
+├── config.yaml             # Configuration file for paths and settings
 ├── venv/                   # Python virtual environment
 ├── backend/
 │   ├── main.py             # Main data analysis script (319 lines)
@@ -125,6 +127,46 @@ The project generates 23 comprehensive visualizations including:
 - Python 3.7+
 - All required packages are listed in `requirements.txt`
 
+### Configuration
+
+The project uses a `config.yaml` file to manage all file paths and analysis settings. This centralized configuration makes it easy to modify input/output locations and analysis parameters without changing the code.
+
+**Important**: All paths in `config.yaml` are relative to the project root directory. Always run the scripts from the project root:
+```bash
+~/Desktop/GitHub/SL_Project/Airline_Record_Analysis$ python backend/main.py
+```
+
+**Key Configuration Sections:**
+
+- **Input Configuration**: Dataset path and date parsing settings
+- **Output Configuration**: Directory for generated graphs and individual graph filenames
+- **Figure Settings**: DPI and figure sizes for visualizations
+- **Analysis Settings**: Parameters like top N countries, nationalities, and age bins
+
+To modify paths or settings, edit the `config.yaml` file in the project root:
+
+```yaml
+input:
+  dataset_path: "backend/data/Airline_Dataset.csv"
+  parse_dates: ["Departure Date"]
+
+output:
+  graphs_dir: "backend/graphs"
+  graphs:
+    gender_distribution: "Graph1.png"
+    # ... other graph names
+
+figure_settings:
+  dpi: 300
+  large_figure_size: [14, 8]
+  xlarge_figure_size: [18, 10]
+
+analysis:
+  top_n_countries: 10
+  top_n_nationalities: 20
+  age_bins: 20
+```
+
 ### Running the Analysis
 
 1. **Clone the repository**:
@@ -151,18 +193,28 @@ The project generates 23 comprehensive visualizations including:
    pip install -r requirements.txt
    ```
 
-4. **Run the backend analysis**:
+4. **Run the backend analysis** (from project root):
    ```bash
-   cd backend
-   python main.py
+   python backend/main.py
    ```
    This will:
-   - Read the dataset from `data/Airline_Dataset.csv`
+   - Read the dataset from `backend/data/Airline_Dataset.csv`
    - Generate all 23 visualizations
-   - Save graphs to the `graphs/` directory as PNG files
+   - Save graphs to the `backend/graphs/` directory as PNG files
 
 5. **View the dashboard**:
-   - Open `frontend/index.html` in your web browser
+   - Open `frontend/index.html` in your web browser directly, or
+   - From project root, run:
+     ```bash
+     # On Linux/Mac:
+     xdg-open frontend/index.html
+     
+     # On Mac:
+     open frontend/index.html
+     
+     # On Windows:
+     start frontend/index.html
+     ```
    - Navigate through 23 different visualization pages (Graph1.html through Graph23.html)
    - Explore continent-specific analyses and demographic insights
    - Access project reports from the `frontend/reports/` directory
