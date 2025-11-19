@@ -8,7 +8,7 @@ input:
 
 # Output Configuration
 output:
-  # Directory where all generated graphs will be saved
+  # Directory where all generated graphs will be saved (also copied to frontend/img)
   graphs_dir: "backend/graphs"
   
   # Graph file names

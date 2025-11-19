@@ -71,12 +71,12 @@ Airline_Record_Analysis/
 └── frontend/
     ├── index.html          # Main dashboard page
     ├── style.css           # Dashboard styling
-    ├── img/                # Image assets for frontend
-    │   ├── Graph1.png through Graph11.png  # Core visualizations
-    │   ├── Graph_ymin6.png & Graph_Quad9.png
+    ├── img/                # Generated graph visualizations
+    │   ├── Graph1.png through Graph13.png  # Core visualizations
     │   ├── bar_*.png       # Regional bar charts (6 files)
-    │   ├── pie_*.png       # Regional pie charts (6 files)
-    │   ├── dataset_img.png # Dataset preview image
+    │   └── pie_*.png       # Regional pie charts (6 files)
+    ├── static/             # Static assets for UI
+    │   ├── dataset_img.png # Dataset preview icon
     │   └── pdf_img.png     # PDF report icon
     ├── pages/              # Individual graph pages (23 HTML files)
     │   ├── Graph1.html through Graph23.html

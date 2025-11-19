@@ -27,6 +27,8 @@ TOP_N_NATIONALITIES = config['analysis']['top_n_nationalities']
 AGE_BINS = config['analysis']['age_bins']
 
 # Ensure graphs and img directories exist
+# GRAPHS_DIR: stores all generated visualizations
+# IMG_DIR: frontend copy of graphs for web dashboard
 os.makedirs(GRAPHS_DIR, exist_ok=True)
 os.makedirs(IMG_DIR, exist_ok=True)
 
@@ -340,7 +342,8 @@ plt.ylabel('Average Age')
 plt.savefig(os.path.join(GRAPHS_DIR, GRAPH_NAMES['age_trends_line']), bbox_inches='tight')
 # plt.show()  # Disabled to prevent opening graph window
 
-# Copy all generated graph files to IMG_DIR
+# Copy all generated graph files from backend/graphs to frontend/img
+# Note: Static UI assets (dataset_img.png, pdf_img.png) are in frontend/static/
 for file in os.listdir(GRAPHS_DIR):
     if file.lower().endswith((".png", ".jpg", ".jpeg", ".svg")):
         src = os.path.join(GRAPHS_DIR, file)
