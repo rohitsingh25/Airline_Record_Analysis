@@ -309,7 +309,7 @@ df=pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
 fig = px.histogram(df, x='Age', nbins=AGE_BINS, color='Gender',
                    title='Histogram of Passengers Age',
                    labels={'Age': 'Passengers Age'})
-fig.write_image(os.path.join(GRAPHS_DIR, GRAPH_NAMES['age_histogram']))DIR, GRAPH_NAMES['age_histogram']))
+fig.write_image(os.path.join(GRAPHS_DIR, GRAPH_NAMES['age_histogram']))
 
 
 
@@ -334,7 +334,7 @@ sns.lineplot(x='Departure Date', y='Age', data=average_age, marker='o', color='b
 plt.title('Average Age Over Time')
 plt.xlabel('Departure Date')
 plt.ylabel('Average Age')
-plt.savefig(os.path.join(GRAPHS_DIR, GRAPH_NAMES['age_trends_line']), bbox_inches='tight')trends_line']), bbox_inches='tight')
+plt.savefig(os.path.join(GRAPHS_DIR, GRAPH_NAMES['age_trends_line']), bbox_inches='tight')
 plt.show()
 
 #end

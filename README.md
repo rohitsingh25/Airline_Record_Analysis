@@ -133,7 +133,7 @@ The project uses a `config.yaml` file to manage all file paths and analysis sett
 
 **Important**: All paths in `config.yaml` are relative to the project root directory. Always run the scripts from the project root:
 ```bash
-~/Desktop/GitHub/SL_Project/Airline_Record_Analysis$ python backend/main.py
+~/Desktop/GitHub/SL_Project/Airline_Record_Analysis$ python3 backend/main.py
 ```
 
 **Key Configuration Sections:**
@@ -178,7 +178,7 @@ analysis:
 2. **Create and activate virtual environment**:
    ```bash
    # Create virtual environment
-   python -m venv venv
+   python3 -m venv venv
    
    # Activate virtual environment
    # On Linux/Mac:
@@ -195,7 +195,7 @@ analysis:
 
 4. **Run the backend analysis** (from project root):
    ```bash
-   python backend/main.py
+   python3 backend/main.py
    ```
    This will:
    - Read the dataset from `backend/data/Airline_Dataset.csv`
