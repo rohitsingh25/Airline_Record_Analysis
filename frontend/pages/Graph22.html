@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        #graph-container {
+            width: 80%;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        #graph-image {
+            width: 100%; /* Ensure the image takes up the full width of its container */
+            max-width: 900px; /* Set a maximum width for the image */
+        }
+
+        #download-btn, #back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #3498db;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        p{
+            width: 100%;
+            max-width: 75%;
+            text-align: justify;
+        }
+        #back-btn {
+            margin-left: 10px; /* Adjust the margin between the Download and Back buttons */
+        }
+    </style>
+</head>
+<body>
+
+<div id="graph-container">
+    
+    <img id="graph-image" src="../img/bar_South_America_pass22.png" alt="Graph">  
+    
+    <h2>Graph Explanation</h2>
+
+        <p>Based on the quantity of airline passengers, the top 10 South American countries can be seen visually in the horizontal bar chart. Every bar represents a particular nation, and the number of passengers from that nation is indicated by the length of the bar. The passenger distribution in South America can be seen in comparative perspective by observing that the longer the bar, the more travelers there are. Retaining this chart as 'bar_South_America_pass.png' ensures that the relative contributions of each nation to the total number of passengers in the South American region are clearly and succinctly represented. This map makes it easier to see which South American nations are the main hubs for passenger travel.</p>
+
+    <button id="download-btn" type="button" data-download="graph-image">Download</button>
+    
+
+    <!-- <a id="back-btn" href="../index.html">Back</a> -->
+    <button id="back-btn" onclick="window.location.href='../index.html#returnFromGraphs'">Back</button>
+
+
+    <script>
+        const downloadLinks=document.querySelectorAll("[data-download]");
+        downloadLinks.forEach(button=>{
+            const id =button.dataset.download;
+            const image =document.getElementById(id);
+            const a=document.createElement("a");
+
+            a.href=image.src;
+            a.download="";
+            a.style.display="none";
+
+            button.addEventListener("click",()=>{
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            });
+        });
+    </script>
+</div>
+
+</body>
+</html>

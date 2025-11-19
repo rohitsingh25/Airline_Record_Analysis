@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        #graph-container {
+            width: 80%;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        #graph-image {
+            width: 100%; /* Ensure the image takes up the full width of its container */
+            max-width: 900px; /* Set a maximum width for the image */
+        }
+
+        #download-btn, #back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #3498db;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        p{
+            width: 100%;
+            max-width: 75%;
+            text-align: justify;
+        }
+        #back-btn {
+            margin-left: 10px; /* Adjust the margin between the Download and Back buttons */
+        }
+    </style>
+</head>
+<body>
+
+<div id="graph-container">
+    
+    <img id="graph-image" src="../img/bar_Oceania_pass20.png" alt="Graph">  
+    
+    <h2>Graph Explanation</h2>
+
+        <p>The top ten Oceanian nations with the most airline passengers are displayed in a horizontal bar chart. Every horizontal bar represents a different nation, and the length of the bar indicates the number of passengers from that nation. Greater numbers of passengers from the respective countries are indicated by longer bars. It is simple to determine which of these Oceania countries contributes the most to the region's total passenger traffic thanks to this chart's clear comparison of passenger counts. The graphic does a good job of explaining the relative importance of each nation in relation to air travel throughout Oceania.</p>
+
+    <button id="download-btn" type="button" data-download="graph-image">Download</button>
+    
+
+    <!-- <a id="back-btn" href="../index.html">Back</a> -->
+    <button id="back-btn" onclick="window.location.href='../index.html#returnFromGraphs'">Back</button>
+
+
+    <script>
+        const downloadLinks=document.querySelectorAll("[data-download]");
+        downloadLinks.forEach(button=>{
+            const id =button.dataset.download;
+            const image =document.getElementById(id);
+            const a=document.createElement("a");
+
+            a.href=image.src;
+            a.download="";
+            a.style.display="none";
+
+            button.addEventListener("click",()=>{
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            });
+        });
+    </script>
+</div>
+
+</body>
+</html>

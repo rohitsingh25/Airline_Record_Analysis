@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        #graph-container {
+            width: 80%;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        #graph-image {
+            width: 100%; /* Ensure the image takes up the full width of its container */
+            max-width: 900px; /* Set a maximum width for the image */
+        }
+
+        #download-btn, #back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #3498db;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        p{
+            width: 100%;
+            max-width: 75%;
+            text-align: justify;
+        }
+        #back-btn {
+            margin-left: 10px; /* Adjust the margin between the Download and Back buttons */
+        }
+    </style>
+</head>
+<body>
+
+<div id="graph-container">
+    
+    <img id="graph-image" src="../img/Graph8.png" alt="Graph">  
+    
+    <h2>Graph Explanation</h2>
+
+        <p>Within the dataset, the distribution of flight statuses is visually represented by the pie chart named 'Pie Chart of On-Time, Cancelled, and Delayed Flights'. The figure shows how many flights are in each of the three statuses—"On Time," "Cancelled," and "Delayed." The size of each pie segment reflects the number of flights in that category, and each segment corresponds to a particular flight status. The use of distinct colors for each flight status in the color gradient improves visual clarity. Quick and simple to understand, this graphical representation provides an overview of the distribution of flight statuses, making it simple to determine the percentage of flights that are delayed, cancelled, or on time. It is a useful instrument for assessing the general effectiveness and timeliness of the airlines flights</p>
+
+    <button id="download-btn" type="button" data-download="graph-image">Download</button>
+    
+
+    <!-- <a id="back-btn" href="../index.html">Back</a> -->
+    <button id="back-btn" onclick="window.location.href='../index.html#returnFromGraphs'">Back</button>
+
+
+    <script>
+        const downloadLinks=document.querySelectorAll("[data-download]");
+        downloadLinks.forEach(button=>{
+            const id =button.dataset.download;
+            const image =document.getElementById(id);
+            const a=document.createElement("a");
+
+            a.href=image.src;
+            a.download="";
+            a.style.display="none";
+
+            button.addEventListener("click",()=>{
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            });
+        });
+    </script>
+</div>
+
+</body>
+</html>
