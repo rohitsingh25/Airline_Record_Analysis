@@ -46,35 +46,42 @@ Airline_Record_Analysis/
 │   ├── main.py             # Main data analysis script (319 lines)
 │   ├── data/
 │   │   └── Airline_Dataset.csv  # Raw dataset (98,621 records)
-│   └── graphs/             # Generated visualization images (23 graphs)
-│       ├── Graph1.png      # Gender distribution pie chart
-│       ├── Graph2.png      # Top 10 countries bar chart
-│       ├── Graph3.png      # Continent-wise sunburst chart
-│       ├── Graph4.png      # Age histogram
-│       ├── Graph5.png      # Age distribution plot
-│       ├── Graph7.png      # Nationality analysis
-│       ├── Graph8.png      # Flight status overview
-│       ├── Graph11.png     # Flight trends over time
-│       ├── Graph_ymin6.png # Age trends visualization
-│       ├── Graph_Quad9.png # Quadrant analysis
-│       ├── bar_asia_pass14.png         # Asia passenger bar chart
-│       ├── pie_asia_pass15.png         # Asia passenger pie chart
-│       ├── bar_Europe_pass16.png       # Europe passenger bar chart
-│       ├── pie_Europe_pass17.png       # Europe passenger pie chart
-│       ├── bar_North_America_pass18.png    # North America bar chart
-│       ├── pie_North_America_pass19.png    # North America pie chart
-│       ├── bar_Oceania_pass20.png      # Oceania passenger bar chart
-│       ├── bar_Africa_pass12.png       # Africa passenger bar chart
-│       ├── pie_Africa_pass13.png       # Africa passenger pie chart
-│       ├── bar_South_America_pass22.png    # South America bar chart
-│       └── pie_South_America_pass25.png    # South America pie chart
+│   └── graphs/             # Generated visualization images (21 graphs)
+│       ├── gender_distribution_pie.png           # Gender distribution
+│       ├── top_countries_passengers_bar.png      # Top countries by passengers
+│       ├── continent_country_sunburst.png        # Continent hierarchy
+│       ├── age_distribution_histogram.png        # Age histogram
+│       ├── age_count_distribution_bar.png        # Age count distribution
+│       ├── nationality_distribution_pie.png      # Nationality analysis
+│       ├── flight_status_distribution_pie.png    # Flight status overview
+│       ├── flight_status_trends_line.png         # Flight trends over time
+│       ├── average_age_trends_line.png           # Age trends over time
+│       ├── asia_passengers_bar.png               # Asia passenger bar chart
+│       ├── asia_passengers_pie.png               # Asia passenger pie chart
+│       ├── europe_passengers_bar.png             # Europe passenger bar chart
+│       ├── europe_passengers_pie.png             # Europe passenger pie chart
+│       ├── north_america_passengers_bar.png      # North America bar chart
+│       ├── north_america_passengers_pie.png      # North America pie chart
+│       ├── oceania_passengers_bar.png            # Oceania passenger bar chart
+│       ├── oceania_passengers_pie.png            # Oceania passenger pie chart
+│       ├── africa_passengers_bar.png             # Africa passenger bar chart
+│       ├── africa_passengers_pie.png             # Africa passenger pie chart
+│       ├── south_america_passengers_bar.png      # South America bar chart
+│       └── south_america_passengers_pie.png      # South America pie chart
 └── frontend/
     ├── index.html          # Main dashboard page
     ├── style.css           # Dashboard styling
-    ├── img/                # Generated graph visualizations
-    │   ├── Graph1.png through Graph13.png  # Core visualizations
-    │   ├── bar_*.png       # Regional bar charts (6 files)
-    │   └── pie_*.png       # Regional pie charts (6 files)
+    ├── img/                # Generated graph visualizations (copied from backend/graphs)
+    │   ├── gender_distribution_pie.png           # Gender distribution
+    │   ├── top_countries_passengers_bar.png      # Top countries
+    │   ├── continent_country_sunburst.png        # Continent hierarchy
+    │   ├── age_distribution_histogram.png        # Age histogram
+    │   ├── age_count_distribution_bar.png        # Age count
+    │   ├── nationality_distribution_pie.png      # Nationality
+    │   ├── flight_status_distribution_pie.png    # Flight status
+    │   ├── flight_status_trends_line.png         # Flight trends
+    │   ├── average_age_trends_line.png           # Age trends
+    │   └── (Regional bar & pie charts for 6 continents)
     ├── static/             # Static assets for UI
     │   ├── dataset_img.png # Dataset preview icon
     │   └── pdf_img.png     # PDF report icon
@@ -133,7 +140,7 @@ The project uses a `config.yaml` file to manage all file paths and analysis sett
 
 **Important**: All paths in `config.yaml` are relative to the project root directory. Always run the scripts from the project root:
 ```bash
-~/Desktop/GitHub/SL_Project/Airline_Record_Analysis$ python3 backend/main.py
+Airline_Record_Analysis$ python3 backend/main.py
 ```
 
 **Key Configuration Sections:**

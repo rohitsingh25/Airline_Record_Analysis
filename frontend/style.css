@@ -1,26 +1,34 @@
+/* ============================================================================
+   AIRLINE DATA ANALYSIS DASHBOARD - STYLES
+   CS699 Software Lab Project | IIT Bombay
+   ============================================================================ */
+
+/* Global Reset and Base Styles */
 *{
     box-sizing: border-box;
     margin: 0px;
 }
+
+/* Code Block Styling */
 pre {
     background-color: #f4f4f4;
     padding: 10px;
     border-radius: 5px;
     font-family: 'Courier New', Courier, monospace;
-  }
+}
+
+/* Body Base Styles */
 body {
     margin: 0px;
     font-family: 'Courier New', Courier, monospace;
     background-color: hsl(0, 5%, 92%);
 }
+
+/* Header Section */
 header{
     padding: 20px;
-    /* background-color: rgb(17, 124, 143); */
     font-family: 'Courier New', Courier, monospace;
     background-color: hsl(0, 5%, 92%);
-    /* position: relative; */
-    /* overflow: hidden; */
-
 }
 header h1 {
     padding-top: 2vw;
@@ -28,15 +36,13 @@ header h1 {
     font-size: 5vw;
     color:black;
 }
-/* .banner{
-    background-image: url(/img/b.gif) ;
-    height: 14vw;
-    min-height: 30px;
-    background-size: 50%;
-} */
+
+/* Layout Utilities */
 .flex-align-right{
     margin-left: auto;
 }
+
+/* Footer and Navigation */
 footer , nav {
     display: flex;
     background-color: #333;
@@ -50,51 +56,42 @@ footer a ,nav a{
     padding: 1.2vw 2vw;
     float: left;
 }
+
+/* Paragraph Text Styling */
 #paratext
 {
     text-align: justify;
     font-family: 'Courier New', Courier, monospace;
     font-size: large;
-    /* word-spacing: 10%; */
 }
+
 footer a{
     font-size: 1.2vw;
 }
+
+/* Menu Button Hover Effect */
 .menubtn:hover{
     border-radius: 5px;
     background-color:white;
     color:black;
 }
+
+/* Section Headers */
 h2{
     padding-top: 5vh;
-    /* padding-bottom: 0.1vh; */
 }
+
+/* Section Base Styling */
 section{
     text-align: center;
-    /* height: 100%; */
-    /* padding-top:40px 0px ; */
-    /* min-height: 40vh; */
 }
 section h2 span{
     padding: 1vw 5vw;
     border-radius: 30px;
     background:linear-gradient(to right , yellow ,lightgreen)
 }
-/* 
-.carousel-cell {
-    padding-top: 40px;
-    width: 80%;
-    height: 50vh;
-    margin: .1vw;
-    border-radius: 5vh;
-}
-.carousel-cell video{
-      max-width: 35%;
-} */
-/* 
-section video{
-    border: 2px solid black;
-} */
+
+/* Video and Media Styling */
 .outvideo{
     margin: 4vw 2vw;
     height: auto;
@@ -113,11 +110,15 @@ iframe{
     height: 50vh;
     width: 30%;
 }
+
+/* Profile Image Styling */
 .profileimg{
     margin-top: 5vh;
     width: 20%;
     border-radius: 50%;
 }
+
+/* Profile Name Text */
 .profilename{
     font-size: 2vw;
     font-family:'Courier New', Courier, monospace;
@@ -127,6 +128,8 @@ iframe{
     text-transform: uppercase;
     margin: 1vh .1vw 2vh .1vw ;
 }
+
+/* Social Media Links */
 .sm-handle a{
     background-color: rgb(125, 125, 125 , 50%);
     padding: 1vw 2.2vw;
@@ -136,37 +139,43 @@ iframe{
     text-decoration: none;
     font-size: 2vw;
 }
+
 .sm-handle a:hover{
     background-color: #333;
 }
+
 .sm-handle i{
     margin: .2vw;
 }
+
+/* Instagram Icon Styling */
 .Ihandle{
     color:#dd2a7b;
     padding: 1.25vh;
     border-radius: .5vw;
 }
-/* .ihandle-color{
-    color: white;
-    background: linear-gradient(45DEG , #405DE6 , #5851db , #c13584, rgb(245, 86, 86) ,yellow, lightyellow);
-} */
+
+/* Facebook Icon Styling */
 .fhandle{
     color:#3b5998;
     /* background-color: white; */
     padding: 1.4vh .8vw;
     border-radius: .5vw;
 }
+
+/* About Section Styling */
 .about-us{
     margin: 5vh 5vw;
     font-size: 2vw;
     color: #120f5e;
 }
+
 h4 span{
     background-color: rgb(125, 125, 125 , 50%);
     border-radius: 3vh;
     padding: 2vh 2vw;
 }
+
 .about-title{
     font-size: 1.5vw;
     padding: 0vh 5vw;
@@ -176,6 +185,12 @@ h4 span{
     margin: 5vh;
     font-weight: 500;
 }
+
+/* ============================================================================
+   RESPONSIVE DESIGN - MEDIA QUERIES
+   ============================================================================ */
+
+/* Tablet and Small Desktop (max-width: 800px) */
 @media screen and (max-width : 800px) {
     .img-responsive{
         margin: 5vh .1vw 1vh .1vw;
@@ -188,6 +203,8 @@ h4 span{
         height: 25vh;
     }
 }
+
+/* Mobile Devices (max-width: 700px) */
 @media screen and (max-width : 700px) {
     footer ,nav{
         flex-direction:column;
@@ -198,10 +215,18 @@ h4 span{
         margin-left: 0px;
     }   
 }
+
+/* ============================================================================
+   GRAPH AND VISUALIZATION COMPONENTS
+   ============================================================================ */
+
+/* Graph Container */
 .graph-container {
     margin-top: 20px;
-  }
-  .graph-item {
+}
+
+/* Individual Graph Item */
+.graph-item {
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 10px;
@@ -213,8 +238,10 @@ h4 span{
   }
   .graph-item h4 {
     margin-bottom: 5px;
-  }
-  .view-button {
+}
+
+/* View Button Styling */
+.view-button {
     display: inline-block;
     padding: 5px 10px;
     background-color: #007bff;
@@ -223,18 +250,23 @@ h4 span{
     border-radius: 3px;
     cursor: pointer;
     text-decoration: none;
-  }
-  .view-btn{
+}
+
+.view-btn{
     text-decoration: none;
     color: white;
-  }
-  .view-button:hover {
+}
+
+.view-button:hover {
     background-color: #0056b3;
-  }
-  .file-container {
+}
+
+/* File Container and Download Button */
+.file-container {
     margin-top: 50px;
-  }
-  .download-btn {
+}
+
+.download-btn {
     padding: 8px 16px;
     background-color: #007bff;
     color: #fff;
@@ -245,22 +277,27 @@ h4 span{
   }
   .download-btn:hover {
     background-color: #0056b3;
-  }
-  .list-container {
+}
+
+/* Graph List Container */
+.list-container {
     width: 75%;
-    margin: 20px auto; /* Centers the container */
+    margin: 20px auto;
     border-radius: 5%;
-  }
-  .item {
-    /* border: 1px solid #ccc; */
+}
+
+/* List Item with Absolute Positioned Button */
+.item {
     padding: 10px;
     margin-bottom: 10px;
     position: relative;
     border-radius: 5%;
     text-align: left;
-    overflow: hidden; /* Hide overflow to contain button within the item */
-  }
-  .view-btn {
+    overflow: hidden;
+}
+
+/* Positioned View Button */
+.view-btn {
     position: absolute;
     border-radius: 5%;
     top: 50%;
@@ -271,31 +308,37 @@ h4 span{
     color: white;
     border: none;
     cursor: pointer;
-  }
-  p {
+}
+
+/* Paragraph Width Constraint */
+p {
     width: 100%;
-    max-width: 75%; /* Limits the width to 75% */
-    margin: 0 auto; /* Centers the text */
-    /*border: 1px solid #ccc; */ /* Just for visualization */
-    padding: 10px; /* Just for visualization */
-  }
-  .code-container {
+    max-width: 75%;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+/* Code Display Container */
+.code-container {
     width: 75%;
-    margin: 20px auto; /* Centers the container */
+    margin: 20px auto;
     text-align: left;
-  }
-  pre {
-    background-color: #1a1a1a; /* Set code block background color */
-    color: white; /* Set code block text color */
+}
+
+/* Code Block Dark Theme */
+pre {
+    background-color: #1a1a1a;
+    color: white;
     padding: 15px;
-    overflow-x: auto; /* Enable horizontal scroll if needed */
-  }
-  /* Python syntax highlighting - example */
-  .keyword { color: #569cd6; } /* Python keywords color */
-  .string { color: #ce9178; } /* Strings color */
-  .comment { color: #608b4e; } /* Comments color */
-  /* Add more classes for other syntax elements */
-  #alignGraph
-    {
-        text-align: left;
-    }
+    overflow-x: auto;
+}
+
+/* Python Syntax Highlighting */
+.keyword { color: #569cd6; }
+.string { color: #ce9178; }
+.comment { color: #608b4e; }
+
+/* Graph Alignment */
+#alignGraph{
+    text-align: left;
+}

@@ -11,31 +11,31 @@ output:
   # Directory where all generated graphs will be saved (also copied to frontend/img)
   graphs_dir: "backend/graphs"
   
-  # Graph file names
+  # Graph file names - Meaningful descriptive names
   graphs:
-    gender_distribution: "Graph1.png"
-    top_countries_bar: "Graph2.png"
-    continent_sunburst: "Graph3.png"
-    age_histogram: "Graph4.png"
-    age_count_bar: "Graph5.png"
-    nationality_pie: "Graph7.png"
-    flight_status_pie: "Graph8.png"
-    flight_trends_line: "Graph11.png"
-    age_trends_line: "Graph13.png"
+    gender_distribution: "gender_distribution_pie.png"
+    top_countries_bar: "top_countries_passengers_bar.png"
+    continent_sunburst: "continent_country_sunburst.png"
+    age_histogram: "age_distribution_histogram.png"
+    age_count_bar: "age_count_distribution_bar.png"
+    nationality_pie: "nationality_distribution_pie.png"
+    flight_status_pie: "flight_status_distribution_pie.png"
+    flight_trends_line: "flight_status_trends_line.png"
+    age_trends_line: "average_age_trends_line.png"
     
     # Regional analysis graphs
-    asia_bar: "bar_asia_pass.png"
-    asia_pie: "pie_asia_pass.png"
-    europe_bar: "bar_Europe_pass.png"
-    europe_pie: "pie_Europe_pass.png"
-    north_america_bar: "bar_North_America_pass.png"
-    north_america_pie: "pie_North_America_pass.png"
-    south_america_bar: "bar_South_America_pass.png"
-    south_america_pie: "pie_South_America_pass.png"
-    oceania_bar: "bar_Oceania_pass.png"
-    oceania_pie: "pie_Oceania_pass.png"
-    africa_bar: "bar_Africa_pass.png"
-    africa_pie: "pie_Africa_pass.png"
+    asia_bar: "asia_passengers_bar.png"
+    asia_pie: "asia_passengers_pie.png"
+    europe_bar: "europe_passengers_bar.png"
+    europe_pie: "europe_passengers_pie.png"
+    north_america_bar: "north_america_passengers_bar.png"
+    north_america_pie: "north_america_passengers_pie.png"
+    south_america_bar: "south_america_passengers_bar.png"
+    south_america_pie: "south_america_passengers_pie.png"
+    oceania_bar: "oceania_passengers_bar.png"
+    oceania_pie: "oceania_passengers_pie.png"
+    africa_bar: "africa_passengers_bar.png"
+    africa_pie: "africa_passengers_pie.png"
 
 # Figure settings
 figure_settings:

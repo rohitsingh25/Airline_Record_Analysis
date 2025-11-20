@@ -1,18 +1,42 @@
-import numpy as np # linear algebra
-import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+"""
+Airline Data Analysis and Visualization
+
+This module processes airline passenger data and generates comprehensive visualizations
+including demographic analysis, geographic distribution, and flight performance metrics.
+
+Usage:
+    python backend/main.py (run from project root)
+
+Author: Rohit Singh Yadav, Bharat Patidar
+Course: CS699 Software Lab, IIT Bombay
+"""
+
+import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
 import os
 import yaml
 import shutil
+import warnings
 
-# Load configuration from project root
-# Works when run from project root: python backend/main.py
+# Suppress FutureWarnings for cleaner output
+warnings.filterwarnings('ignore', category=FutureWarning)
+
+# Print startup banner
+print("="*80)
+print("  AIRLINE DATA ANALYSIS & VISUALIZATION SYSTEM")
+print("  CS699 Software Lab | IIT Bombay")
+print("="*80)
+
+# Load configuration from YAML file
+print("\n[1/5] Loading configuration...")
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 config_path = os.path.join(project_root, 'config.yaml')
 with open(config_path, 'r') as f:
     config = yaml.safe_load(f)
+print("✓ Configuration loaded successfully")
 
 # Extract configuration values and resolve paths from project root
 DATASET_PATH = os.path.join(project_root, config['input']['dataset_path'])
@@ -31,89 +55,118 @@ AGE_BINS = config['analysis']['age_bins']
 # IMG_DIR: frontend copy of graphs for web dashboard
 os.makedirs(GRAPHS_DIR, exist_ok=True)
 os.makedirs(IMG_DIR, exist_ok=True)
+print(f"✓ Output directories configured")
+print(f"  - Graphs: {config['output']['graphs_dir']}")
+print(f"  - Frontend: frontend/img")
 
-# #Reading the dataset
+# ============================================================================
+# DATA LOADING AND PREPROCESSING
+# ============================================================================
 
-df=pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
+print("\n[2/5] Loading and preprocessing dataset...")
+df = pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
+print(f"✓ Loaded {len(df):,} passenger records")
 df.head(11)
 df.info()
 df.nunique()
-df.isnull().sum().sum() #Checking if Null value is present
+df.isnull().sum().sum()
 
-df['Gender']=df['Gender'].astype('category')
+# Data type conversions
+df['Gender'] = df['Gender'].astype('category')
 df['Gender'].unique()
-df['Age']=df['Age'].astype(int)
+df['Age'] = df['Age'].astype(int)
+print("✓ Data preprocessing completed")
 
-# Pie chart of passengers 
+# ============================================================================
+# DEMOGRAPHIC ANALYSIS
+# ============================================================================
 
+print("\n[3/5] Generating demographic visualizations...")
+
+# Graph 1: Gender distribution pie chart
+print("  → Creating gender distribution chart...")
 count_1 = df['Gender'].value_counts()
-count_1
-fig = px.pie(count_1, values=count_1.values, names=count_1.index,title= "Distribution of passengers accross Genders")
+fig = px.pie(count_1, values=count_1.values, names=count_1.index, 
+             title="Distribution of passengers accross Genders")
 fig.write_image(os.path.join(GRAPHS_DIR, GRAPH_NAMES['gender_distribution']))
-# fig.show()
 
-# #Bar chart of passengers
+# ============================================================================
+# GEOGRAPHIC ANALYSIS
+# ============================================================================
 
+print("  → Creating geographic distribution charts...")
+
+# Graph 2: Top countries bar chart
 count_2 = df['Country Name'].value_counts()
-fig = px.bar(count_2.head(TOP_N_COUNTRIES), x=count_2.head(TOP_N_COUNTRIES).index, y=count_2.head(TOP_N_COUNTRIES).values, title='Top 10 Airport Countries with Most Passengers',labels={'x': 'Country', 'y': 'Passenger Count'})
+fig = px.bar(count_2.head(TOP_N_COUNTRIES), 
+             x=count_2.head(TOP_N_COUNTRIES).index, 
+             y=count_2.head(TOP_N_COUNTRIES).values, 
+             title='Top 10 Airport Countries with Most Passengers',
+             labels={'x': 'Country', 'y': 'Passenger Count'})
 fig.write_image(os.path.join(GRAPHS_DIR, GRAPH_NAMES['top_countries_bar']))
-# fig.show()
 
-# pie chart based on continents
-# #Airport Country and continent wise passenger 
-# to show hierarchial data 
-
-df_c= pd.DataFrame(count_2).reset_index().rename(columns={"index": "value", 0: "count"})
-con=df.loc[:,['Country Name','Continents']]
-con=con.drop_duplicates()
-new_df=pd.merge_ordered(df_c,con, fill_method= 'ffill', on= 'Country Name')
+# Graph 3: Continent-wise hierarchical sunburst chart
+df_c = pd.DataFrame(count_2).reset_index().rename(columns={"index": "value", 0: "count"})
+con = df.loc[:, ['Country Name', 'Continents']]
+con = con.drop_duplicates()
+new_df = pd.merge_ordered(df_c, con, fill_method='ffill', on='Country Name')
 
 fig = px.sunburst(new_df, path=['Continents', 'Country Name'], values='count',
                   color='count', 
                   color_continuous_scale='RdBu',
                   color_continuous_midpoint=np.average(new_df['count'], weights=new_df['count']),
-                  title= "Airport Country and Continent wise Passengers")
+                  title="Airport Country and Continent wise Passengers")
 fig.write_image(os.path.join(GRAPHS_DIR, GRAPH_NAMES['continent_sunburst']))
-# #fig.show()
 
-# #Histogram of Passenger Age 
+# Graph 4: Age distribution histogram
+print("  → Creating age distribution visualizations...")
 fig = px.histogram(df, x='Age', nbins=20, color='Gender',
                    title='Histogram of Passengers Age',
                    labels={'Age': 'Passengers Age'})
 fig.write_image(os.path.join(GRAPHS_DIR, GRAPH_NAMES['age_histogram']))
 
-
-# #Count vs Age with 4 different graphs
+# Graph 5: Age count distribution
 plt.figure(figsize=XLARGE_FIG_SIZE)
-sns.countplot(data=df,x='Age')
+sns.countplot(data=df, x='Age')
 plt.xticks(rotation=90)
 plt.savefig(os.path.join(GRAPHS_DIR, GRAPH_NAMES['age_count_bar']), bbox_inches='tight')
 
-
-# #Distribution Across Nationality
+# Graph 7: Nationality distribution
+print("  → Creating nationality distribution chart...")
 nationality = pd.DataFrame(df['Nationality'].value_counts()).reset_index()
 nationality = nationality.head(TOP_N_NATIONALITIES)
 nationality.sort_values(by='Nationality', ascending=False, inplace=True)
-fig=px.pie(nationality, values='count', names='Nationality', hole=0.5, title='Distribution Accross Nationality')
+fig = px.pie(nationality, values='count', names='Nationality', hole=0.5, 
+             title='Distribution Accross Nationality')
 fig.write_image(os.path.join(GRAPHS_DIR, GRAPH_NAMES['nationality_pie']))
 
-# #Pie Chart of on time cancelled and delayed flights
+# ============================================================================
+# FLIGHT OPERATIONS ANALYSIS
+# ============================================================================
+
+print("\n[4/5] Generating flight operations visualizations...")
+
+# Graph 8: Flight status distribution
+print("  → Creating flight status charts...")
 fl_stat = pd.DataFrame(df['Flight Status'].value_counts()).reset_index()
-fig = px.pie(fl_stat, values='count', names='Flight Status', color_discrete_sequence=px.colors.sequential.RdBu)
+fig = px.pie(fl_stat, values='count', names='Flight Status', 
+             color_discrete_sequence=px.colors.sequential.RdBu)
 fig.write_image(os.path.join(GRAPHS_DIR, GRAPH_NAMES['flight_status_pie']))
 
-
-# # Create a line plot for the count of flights based on 'Departure Date' and Flight Status
+# Graph 11: Flight trends over time
+print("  → Creating temporal trend analyses...")
 df['Departure Date'] = pd.to_datetime(df['Departure Date'])
 plt.figure(figsize=LARGE_FIG_SIZE)
-sns.lineplot(x='Departure Date', y='Count', hue='Flight Status', data=df.groupby(['Departure Date', 'Flight Status']).size().reset_index(name='Count'), palette='Set2')
+flight_data = df.groupby(['Departure Date', 'Flight Status']).size().reset_index(name='Count')
+sns.lineplot(x='Departure Date', y='Count', hue='Flight Status', 
+             data=flight_data, palette='Set2')
 plt.title('Flight Status based on Departure Date')
 plt.xlabel('Departure Date')
 plt.ylabel('Count of Flights')
 plt.legend(title='Flight Status')
 plt.savefig(os.path.join(GRAPHS_DIR, GRAPH_NAMES['flight_trends_line']), bbox_inches='tight')
 
-# # Create a line plot for Average Age vs. Departure Date
+# Graph 13: Average age trends over time
 average_age = df.groupby('Departure Date')['Age'].mean().reset_index()
 plt.figure(figsize=(14, 8))
 sns.lineplot(x='Departure Date', y='Age', data=average_age, marker='o', color='blue')
@@ -122,217 +175,211 @@ plt.xlabel('Departure Date')
 plt.ylabel('Average Age')
 plt.savefig(os.path.join(GRAPHS_DIR, GRAPH_NAMES['age_trends_line']), bbox_inches='tight')
 
+# ============================================================================
+# REGIONAL ANALYSIS - ASIA
+# ============================================================================
 
+print("\n[5/5] Generating regional analysis charts...")
+print("  → Asia region...")
 
-# Bar Graph : Passengers of Asian countries
-
+# Bar graph: Asian countries passenger distributionribution
 continent = 'Asia'
-df=pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
+df = pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
 df_continent = df[df['Continents'] == continent]
 
 x = list(set(list(df_continent['Country Name'])))
-y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
-data = [(i,j) for i,j in zip(x, y)]
+y = [len(list(df_continent[df_continent['Country Name'] == c]['Passenger ID'])) for c in x]
+data = sorted([(i, j) for i, j in zip(x, y)], key=lambda x: x[1])[-10:]
 
-data = sorted(data, key=lambda x:x[1])[-10:]
-plt.barh([i for i,j in data], [j for i, j in data])
-# plt.pie([j for i,j in data], labels=[i for i, j in data],autopct='%1.1f%%')
-# plt.legend()
-# plt.show()
+plt.barh([i for i, j in data], [j for i, j in data])
 plt.savefig(os.path.join(GRAPHS_DIR, GRAPH_NAMES['asia_bar']), dpi=DPI)
 
-# Pie Chart : Passengers of Asian countries
-
+# Pie chart: Asian countries passenger distribution
 continent = 'Asia'
-df=pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
+df = pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
 df_continent = df[df['Continents'] == continent]
 
 x = list(set(list(df_continent['Country Name'])))
-y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
+y = [len(list(df_continent[df_continent['Country Name'] == c]['Passenger ID'])) for c in x]
+data = sorted([(i, j) for i, j in zip(x, y)], key=lambda x: x[1])[-10:]
 
-data = [(i,j) for i,j in zip(x, y)]
-data = sorted(data, key=lambda x:x[1])[-10:]
-# plt.barh([i for i,j in data], [j for i, j in data])
-plt.pie([j for i,j in data], labels=[i for i, j in data],autopct='%1.1f%%')
-# plt.legend()
-# plt.show()
+plt.pie([j for i, j in data], labels=[i for i, j in data], autopct='%1.1f%%')
 plt.savefig(os.path.join(GRAPHS_DIR, GRAPH_NAMES['asia_pie']), dpi=DPI)
 
+# ============================================================================
+# REGIONAL ANALYSIS - NORTH AMERICA
+# ============================================================================
 
-# Bar Graph : Passengers of North American countries
+print("  → North America region...")
 
+# Bar graph: North American countries passenger distributionribution
 continent = 'North America'
-df=pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
+df = pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
 df_continent = df[df['Continents'] == continent]
 
 x = list(set(list(df_continent['Country Name'])))
-y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
+y = [len(list(df_continent[df_continent['Country Name'] == c]['Passenger ID'])) for c in x]
+data = sorted([(i, j) for i, j in zip(x, y)], key=lambda x: x[1])[-10:]
 
-data = [(i,j) for i,j in zip(x, y)]
-data = sorted(data, key=lambda x:x[1])[-10:]
-plt.barh([i for i,j in data], [j for i, j in data])
+plt.barh([i for i, j in data], [j for i, j in data])
 plt.savefig(os.path.join(GRAPHS_DIR, GRAPH_NAMES['north_america_bar']), dpi=DPI)
 
-# Pie Chart : Passengers of North American  countries
-
+# Pie chart: North American countries passenger distribution
 continent = 'North America'
-df=pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
+df = pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
 df_continent = df[df['Continents'] == continent]
 
 x = list(set(list(df_continent['Country Name'])))
-y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
-data = [(i,j) for i,j in zip(x, y)]
+y = [len(list(df_continent[df_continent['Country Name'] == c]['Passenger ID'])) for c in x]
+data = sorted([(i, j) for i, j in zip(x, y)], key=lambda x: x[1])[-10:]
 
-data = sorted(data, key=lambda x:x[1])[-10:]
-plt.pie([j for i,j in data], labels=[i for i, j in data],autopct='%1.1f%%')
+plt.pie([j for i, j in data], labels=[i for i, j in data], autopct='%1.1f%%')
 plt.savefig(os.path.join(GRAPHS_DIR, GRAPH_NAMES['north_america_pie']), dpi=DPI)
 
-# Bar Graph : Passengers of European countries
+# ============================================================================
+# REGIONAL ANALYSIS - EUROPE
+# ============================================================================
 
+print("  → Europe region...")
+
+# Bar graph: European countries passenger distributionribution
 continent = 'Europe'
-df=pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
+df = pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
 df_continent = df[df['Continents'] == continent]
 
 x = list(set(list(df_continent['Country Name'])))
-y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
-data = [(i,j) for i,j in zip(x, y)]
-data = sorted(data, key=lambda x:x[1])[-10:]
-plt.barh([i for i,j in data], [j for i, j in data])
+y = [len(list(df_continent[df_continent['Country Name'] == c]['Passenger ID'])) for c in x]
+data = sorted([(i, j) for i, j in zip(x, y)], key=lambda x: x[1])[-10:]
+
+plt.barh([i for i, j in data], [j for i, j in data])
 plt.savefig(os.path.join(GRAPHS_DIR, GRAPH_NAMES['europe_bar']), dpi=DPI)
 
-# Pie Chart : Passengers of European countries
-
+# Pie chart: European countries passenger distribution
 continent = 'Europe'
-df=pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
+df = pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
 df_continent = df[df['Continents'] == continent]
 
 x = list(set(list(df_continent['Country Name'])))
-y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
-data = [(i,j) for i,j in zip(x, y)]
+y = [len(list(df_continent[df_continent['Country Name'] == c]['Passenger ID'])) for c in x]
+data = sorted([(i, j) for i, j in zip(x, y)], key=lambda x: x[1])[-10:]
 
-data = sorted(data, key=lambda x:x[1])[-10:]
-plt.pie([j for i,j in data], labels=[i for i, j in data],autopct='%1.1f%%')
+plt.pie([j for i, j in data], labels=[i for i, j in data], autopct='%1.1f%%')
 plt.savefig(os.path.join(GRAPHS_DIR, GRAPH_NAMES['europe_pie']), dpi=DPI)
 
-# Bar Graph : Passengers of South American countries
+# ============================================================================
+# REGIONAL ANALYSIS - SOUTH AMERICA
+# ============================================================================
 
+print("  → South America region...")
+
+# Bar graph: South American countries passenger distributionribution
 continent = 'South America'
-df=pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
+df = pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
 df_continent = df[df['Continents'] == continent]
 
 x = list(set(list(df_continent['Country Name'])))
-y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
-data = [(i,j) for i,j in zip(x, y)]
-data = sorted(data, key=lambda x:x[1])[-10:]
-plt.barh([i for i,j in data], [j for i, j in data])
+y = [len(list(df_continent[df_continent['Country Name'] == c]['Passenger ID'])) for c in x]
+data = sorted([(i, j) for i, j in zip(x, y)], key=lambda x: x[1])[-10:]
+
+plt.barh([i for i, j in data], [j for i, j in data])
 plt.savefig(os.path.join(GRAPHS_DIR, GRAPH_NAMES['south_america_bar']), dpi=DPI)
 
-# Pie Chart : Passengers of South American countries
-
+# Pie chart: South American countries passenger distribution
 continent = 'South America'
-df=pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
-
+df = pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
 df_continent = df[df['Continents'] == continent]
 
 x = list(set(list(df_continent['Country Name'])))
-y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
-data = [(i,j) for i,j in zip(x, y)]
-data = sorted(data, key=lambda x:x[1])[-10:]
-plt.pie([j for i,j in data], labels=[i for i, j in data],autopct='%1.1f%%')
+y = [len(list(df_continent[df_continent['Country Name'] == c]['Passenger ID'])) for c in x]
+data = sorted([(i, j) for i, j in zip(x, y)], key=lambda x: x[1])[-10:]
+
+plt.pie([j for i, j in data], labels=[i for i, j in data], autopct='%1.1f%%')
 plt.savefig(os.path.join(GRAPHS_DIR, GRAPH_NAMES['south_america_pie']), dpi=DPI)
 
-# Bar Graph : Passengers of Oceania countries
+# ============================================================================
+# REGIONAL ANALYSIS - OCEANIA
+# ============================================================================
 
+print("  → Oceania region...")
+
+# Bar graph: Oceania countries passenger distributionribution
 continent = 'Oceania'
-df=pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
+df = pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
 df_continent = df[df['Continents'] == continent]
 
 x = list(set(list(df_continent['Country Name'])))
-y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
-data = [(i,j) for i,j in zip(x, y)]
-data = sorted(data, key=lambda x:x[1])[-10:]
-plt.barh([i for i,j in data], [j for i, j in data])
+y = [len(list(df_continent[df_continent['Country Name'] == c]['Passenger ID'])) for c in x]
+data = sorted([(i, j) for i, j in zip(x, y)], key=lambda x: x[1])[-10:]
+
+plt.barh([i for i, j in data], [j for i, j in data])
 plt.savefig(os.path.join(GRAPHS_DIR, GRAPH_NAMES['oceania_bar']), dpi=DPI)
 
-# Pie Chart : Passengers of Ocenia countries
-
+# Pie chart: Oceania countries passenger distribution
 continent = 'Oceania'
-df=pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
+df = pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
 df_continent = df[df['Continents'] == continent]
 
 x = list(set(list(df_continent['Country Name'])))
-y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
-data = [(i,j) for i,j in zip(x, y)]
-data = sorted(data, key=lambda x:x[1])[-10:]
-plt.pie([j for i,j in data], labels=[i for i, j in data],autopct='%1.1f%%')
+y = [len(list(df_continent[df_continent['Country Name'] == c]['Passenger ID'])) for c in x]
+data = sorted([(i, j) for i, j in zip(x, y)], key=lambda x: x[1])[-10:]
+
+plt.pie([j for i, j in data], labels=[i for i, j in data], autopct='%1.1f%%')
 plt.savefig(os.path.join(GRAPHS_DIR, GRAPH_NAMES['oceania_pie']), dpi=DPI)
 
+# ============================================================================
+# REGIONAL ANALYSIS - AFRICA
+# ============================================================================
 
-# Bar Graph : Passengers of African countries
+print("  → Africa region...")
 
+# Bar graph: African countries passenger distributionribution
 continent = 'Africa'
-df=pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
+df = pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
 df_continent = df[df['Continents'] == continent]
 
 x = list(set(list(df_continent['Country Name'])))
-y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
-data = [(i,j) for i,j in zip(x, y)]
-data = sorted(data, key=lambda x:x[1])[-10:]
-plt.barh([i for i,j in data], [j for i, j in data])
+y = [len(list(df_continent[df_continent['Country Name'] == c]['Passenger ID'])) for c in x]
+data = sorted([(i, j) for i, j in zip(x, y)], key=lambda x: x[1])[-10:]
+
+plt.barh([i for i, j in data], [j for i, j in data])
 plt.savefig(os.path.join(GRAPHS_DIR, GRAPH_NAMES['africa_bar']), dpi=DPI)
 
-# Pie Chart : Passengers of African countries
-
+# Pie chart: African countries passenger distribution
 continent = 'Africa'
-df=pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
+df = pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
 df_continent = df[df['Continents'] == continent]
 
 x = list(set(list(df_continent['Country Name'])))
-y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
-data = [(i,j) for i,j in zip(x, y)]
-data = sorted(data, key=lambda x:x[1])[-10:]
-plt.pie([j for i,j in data], labels=[i for i, j in data],autopct='%1.1f%%')
+y = [len(list(df_continent[df_continent['Country Name'] == c]['Passenger ID'])) for c in x]
+data = sorted([(i, j) for i, j in zip(x, y)], key=lambda x: x[1])[-10:]
+
+plt.pie([j for i, j in data], labels=[i for i, j in data], autopct='%1.1f%%')
 plt.savefig(os.path.join(GRAPHS_DIR, GRAPH_NAMES['africa_pie']), dpi=DPI)
 
-df=pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
-# df.head(11)
-# df.info()
-# df.nunique()
-# df.isnull().sum().sum() #Checking if Null value is present
+# ============================================================================
+# ADDITIONAL VISUALIZATIONS
+# ============================================================================
 
-# df['Gender']=df['Gender'].astype('category')
-# df['Gender'].unique()
-# df['Age']=df['Age'].astype(int)
-# _, ax = plt.subplots(figsize=(12, 12), ncols=2, nrows=2,  )
-# columns = [key for key, value in df.nunique().to_dict().items() if value < 10]
+# Reload data for additional analysis
+df = pd.read_csv(DATASET_PATH, parse_dates=config['input']['parse_dates'])
 
-# for index, column in enumerate(columns):
-#     df[column].value_counts().plot(ax=ax.ravel()[index] ,kind='bar', legend=True)
-
-
-# #Histogram of Passenger Age 
+# Age histogram (duplicate check)
 fig = px.histogram(df, x='Age', nbins=AGE_BINS, color='Gender',
                    title='Histogram of Passengers Age',
                    labels={'Age': 'Passengers Age'})
 fig.write_image(os.path.join(GRAPHS_DIR, GRAPH_NAMES['age_histogram']))
 
-
-
-#plt.show()
-
-# # Create a line plot for the count of flights based on 'Departure Date' and Flight Status
-df['Departure Date'] = pd.to_datetime(df['Departure Date'])
-plt.figure(figsize=LARGE_FIG_SIZE)
-sns.lineplot(x='Departure Date', y='Count', hue='Flight Status', data=df.groupby(['Departure Date', 'Flight Status']).size().reset_index(name='Count'), palette='Set2')
+# Flight trends over time (duplicate check)
+flight_data = df.groupby(['Departure Date', 'Flight Status']).size().reset_index(name='Count')
+sns.lineplot(x='Departure Date', y='Count', hue='Flight Status', 
+             data=flight_data, palette='Set2')
 plt.title('Count of Flights Over Time Based on Flight Status')
 plt.xlabel('Departure Date')
 plt.ylabel('Count of Flights')
 plt.legend(title='Flight Status')
 plt.savefig(os.path.join(GRAPHS_DIR, GRAPH_NAMES['flight_trends_line']), bbox_inches='tight')
-# plt.show()  # Disabled to prevent opening graph window
 
-
-# # Create a line plot for Average Age vs. Departure Date
+# Age trends over time (duplicate check)
 average_age = df.groupby('Departure Date')['Age'].mean().reset_index()
 plt.figure(figsize=LARGE_FIG_SIZE)
 sns.lineplot(x='Departure Date', y='Age', data=average_age, marker='o', color='blue')
@@ -340,17 +387,29 @@ plt.title('Average Age Over Time')
 plt.xlabel('Departure Date')
 plt.ylabel('Average Age')
 plt.savefig(os.path.join(GRAPHS_DIR, GRAPH_NAMES['age_trends_line']), bbox_inches='tight')
-# plt.show()  # Disabled to prevent opening graph window
 
-# Copy all generated graph files from backend/graphs to frontend/img
-# Note: Static UI assets (dataset_img.png, pdf_img.png) are in frontend/static/
+# ============================================================================
+# FILE EXPORT - Copy graphs to frontend
+# ============================================================================
+
+print("\nCopying visualizations to frontend...")
+copied_count = 0
 for file in os.listdir(GRAPHS_DIR):
     if file.lower().endswith((".png", ".jpg", ".jpeg", ".svg")):
         src = os.path.join(GRAPHS_DIR, file)
         dst = os.path.join(IMG_DIR, file)
         try:
             shutil.copy(src, dst)
+            copied_count += 1
         except Exception as e:
-            print(f"Failed to copy {file} to img directory: {e}")
+            print(f"  ✗ Failed to copy {file}: {e}")
 
-#end
+print(f"✓ Copied {copied_count} files to frontend/img")
+
+print("\n" + "="*80)
+print(f"  ANALYSIS COMPLETE!")
+print(f"  Generated {len(os.listdir(GRAPHS_DIR))} visualizations")
+print(f"  Graphs saved to: {config['output']['graphs_dir']}")
+print(f"  Frontend copy: frontend/img")
+print("="*80)
+print("\nYou can now open frontend/index.html to view the dashboard.\n")
