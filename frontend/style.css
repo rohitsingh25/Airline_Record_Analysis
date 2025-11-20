@@ -43,11 +43,12 @@ header h1 {
 }
 
 /* Footer and Navigation */
-footer , nav {
+.ck {
     display: flex;
     background-color: #333;
+    width: 100%;
 }
-footer a ,nav a{
+footer a, footer span, nav a{
     display: block;
     font-size: 2vh;
     font-weight: bolder;
@@ -55,6 +56,7 @@ footer a ,nav a{
     text-decoration: none;
     padding: 1.2vw 2vw;
     float: left;
+    cursor: pointer;
 }
 
 /* Paragraph Text Styling */
@@ -63,10 +65,6 @@ footer a ,nav a{
     text-align: justify;
     font-family: 'Courier New', Courier, monospace;
     font-size: large;
-}
-
-footer a{
-    font-size: 1.2vw;
 }
 
 /* Menu Button Hover Effect */
