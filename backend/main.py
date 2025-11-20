@@ -20,6 +20,8 @@ import os
 import yaml
 import shutil
 import warnings
+from matplotlib.backends.backend_pdf import PdfPages
+from PIL import Image
 
 # Suppress FutureWarnings for cleaner output
 warnings.filterwarnings('ignore', category=FutureWarning)
@@ -42,6 +44,7 @@ print("✓ Configuration loaded successfully")
 DATASET_PATH = os.path.join(project_root, config['input']['dataset_path'])
 GRAPHS_DIR = os.path.join(project_root, config['output']['graphs_dir'])
 IMG_DIR = os.path.join(project_root, 'frontend', 'img')
+REPORTS_DIR = os.path.join(project_root, 'frontend', 'reports')
 GRAPH_NAMES = config['output']['graphs']
 DPI = config['figure_settings']['dpi']
 LARGE_FIG_SIZE = tuple(config['figure_settings']['large_figure_size'])
@@ -406,10 +409,51 @@ for file in os.listdir(GRAPHS_DIR):
 
 print(f"✓ Copied {copied_count} files to frontend/img")
 
+# ============================================================================
+# PDF GENERATION - Merge all graphs into a single PDF
+# ============================================================================
+
+print("\nGenerating PDF compilation of all visualizations...")
+pdf_path = os.path.join(REPORTS_DIR, 'generated-graphs.pdf')
+
+# Get all PNG files from graphs directory in sorted order
+graph_files = sorted([f for f in os.listdir(GRAPHS_DIR) if f.lower().endswith('.png')])
+
+if graph_files:
+    try:
+        with PdfPages(pdf_path) as pdf:
+            for graph_file in graph_files:
+                graph_path = os.path.join(GRAPHS_DIR, graph_file)
+                
+                # Read image using PIL to get dimensions
+                img = Image.open(graph_path)
+                width, height = img.size
+                
+                # Create figure with appropriate size (convert pixels to inches at 100 DPI for display)
+                fig = plt.figure(figsize=(width/100, height/100))
+                ax = fig.add_subplot(111)
+                ax.imshow(img)
+                ax.axis('off')
+                
+                # Remove margins
+                plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
+                
+                # Save to PDF
+                pdf.savefig(fig, bbox_inches='tight', pad_inches=0)
+                plt.close(fig)
+        
+        print(f"✓ PDF created successfully: frontend/reports/generated-graphs.pdf")
+        print(f"  Included {len(graph_files)} visualizations")
+    except Exception as e:
+        print(f"✗ Failed to create PDF: {e}")
+else:
+    print("✗ No graph files found to compile into PDF")
+
 print("\n" + "="*80)
 print(f"  ANALYSIS COMPLETE!")
 print(f"  Generated {len(os.listdir(GRAPHS_DIR))} visualizations")
 print(f"  Graphs saved to: {config['output']['graphs_dir']}")
 print(f"  Frontend copy: frontend/img")
+print(f"  PDF report: frontend/reports/generated-graphs.pdf")
 print("="*80)
 print("\nYou can now open frontend/index.html to view the dashboard.\n")
