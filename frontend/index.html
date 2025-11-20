@@ -4,35 +4,42 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Airline Data Analysis Dashboard</title>
     <link rel="stylesheet" href="style.css">
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+    
+    <!-- Script to open LinkedIn profiles in new tabs -->
     <script>
       document.getElementById('openTabs').addEventListener('click', function(e) {
-        e.preventDefault(); // Prevents the default behavior of the anchor tag
+        e.preventDefault();
         
-        // URLs for the two tabs
+        // LinkedIn profile URLs for project contributors
         var url1 = 'https://in.linkedin.com/in/rohit1225/es?trk=people-guest_people_search-card&original_referer=https%3A%2F%2Fwww.google.com%2F';
         var url2 = 'https://in.linkedin.com/in/bharat-patidar-a74a8b1b0';
       
-        // Open the two tabs
+        // Open profiles in new tabs
         window.open(url1, '_blank');
         window.open(url2, '_blank');
       });
       </script>
   </head>
 <body>
+    <!-- Page Header -->
     <header>
         <div class="banner"><h1> SOFTWARE LAB PROJECT  </h1></div>
     </header>
     <hr color=#333>
+    
+    <!-- Navigation Menu -->
     <nav class="ck">
         <a href="#AboutSection" class="menubtn">About Project</a>
         <a href="#GraphsSection" class="menubtn">Data Analysis Graphs</a>
         <a href="#ReportSection" class="menubtn">Reports</a>
     </nav>
     <hr color=#333>
+    
+    <!-- Main Content Sections -->
     <main>
+        <!-- About Project Section -->
         <section id="AboutSection">
             <h2><span>About Project</span></h2>
             <br>
@@ -40,7 +47,8 @@
             <p id="paratext">
                 &nbsp; &nbsp; <b>Airline</b> data is very important since it provides information on how the aviation business operates and how efficient it is. Airlines may use this useful data to improve customer experiences and operational efficiency. It includes aircraft routes, schedules, passenger demographics, and preferences. Airlines can detect patterns and put plans in place to enhance timeliness and lessen disruptions by evaluating data on delays, cancellations, and on-time performance. Furthermore, this information is used by regulatory agencies and legislators to establish safety guidelines, carry out legal requirements, and decide on aviation-related matters. Airline data is used by analysts and researchers to analyze environmental effects, track market trends, and create plans for the industry's long-term future. In essence, airline data serves as a foundation for informed decision-making, operational efficiency, and the overall advancement of the aviation sector.
               </p>
-            <!-- Backend code to be printed -->
+            
+            <!-- Sample Backend Code Display -->
             <br>
             <div class="code-container">
                 <h3>Backend Code : </h3>
@@ -76,18 +84,16 @@
                     count_1 = df['Gender'].value_counts()
                     count_1
                     fig = px.pie(count_1, values=count_1.values, names=count_1.index,title= "Distribution of passengers accross Genders")
-                    fig.write_image("Graph1.png")
+                    fig.write_image("gender_distribution_pie.png")
                     # fig.show()
 
                     <span class="comment"># #Bar chart of passengers</span>
 
                     count_2 = df['Country Name'].value_counts()
                     fig = px.bar(count_2.head(10), x=count_2.head(10).index, y=count_2.head(10).values, title='Top 10 Airport Countries with Most Passengers',labels={'x': 'Country', 'y': 'Passenger Count'})
-                    fig.write_image("Graph2.png")
-                    # fig.show()
+                    fig.write_image("top_countries_passengers_bar.png")
 
-                    <!-- # pie chart based on continents
-                    # #Airport Country and continent wise passenger 
+                    <span class="comment"># Continent-wise hierarchical visualization</span>
 
                     df_c= pd.DataFrame(count_2).reset_index().rename(columns={"index": "value", 0: "count"})
                     con=df.loc[:,['Country Name','Continents']]
@@ -98,42 +104,28 @@
                                       color_continuous_scale='RdBu',
                                       color_continuous_midpoint=np.average(new_df['count'], weights=new_df['count']),
                                       title= "Airport Country and Continent wise Passengers")
-                    fig.write_image("Graph3.png")
-                    # #fig.show()
-                    # #Histogram of Passenger Age 
+                    fig.write_image("continent_country_sunburst.png")
+                    
+                    <span class="comment"># Age distribution histogram</span>
+                    
                     fig = px.histogram(df, x='Age', nbins=20, color='Gender',
                                       title='Histogram of Passengers Age',
                                       labels={'Age': 'Passengers Age'})
-                    fig.write_image("Graph4.png")
-                    # #fig.show() -->
-
-                    
-                    <span class="comment"># Distribution Across Nationality</span>
-
-                    nationality = pd.DataFrame(df['Nationality'].value_counts()).reset_index()
-                    nationality = nationality.head(20)
-                    nationality.sort_values(by='Nationality', ascending=False, inplace=True)
-                    fig=px.pie(nationality, values='count', names='Nationality', hole=0.5, title='Distribution Accross Nationality')
-                    fig.write_image("Graph7.png")
-                    # # fig.show()
-                    x = list(set(list(df_continent['Country Name'])))
-                    y = [len(list(df_continent[df_continent['Country Name']==c]['Passenger ID'])) for c in x]
-                    data = [(i,j) for i,j in zip(x, y)]
-                    data = sorted(data, key=lambda x:x[1])[-10:]
-                    # plt.barh([i for i,j in data], [j for i, j in data])
-                    plt.pie([j for i,j in data], labels=[i for i, j in data],autopct='%1.1f%%')
-                    # plt.legend()
-                    plt.show()
+                    fig.write_image("age_distribution_histogram.png")
 
                   </code>
                 </pre>
               </div>
               <br>
+            
+            <!-- Dataset Information Section -->
             <h3>Dataset </h3>
             <br>
             <p id="paratext">
               &nbsp; &nbsp;This dataset includes a variety of parameters related to international airline operations. Passenger ID, First Name, Last Name, Gender, Age, Nationality, Airport Name, Airport Country Code, Country Name, Airport Continent, Continents, Departure Date, Arrival Airport, Pilot Name, and Flight Status are among the fields that are prominently included in the dataset. All of these columns combined offer deep insights into flight statuses, crew information, flight routes, travel information, and passenger demographics. This information can be used by academics and professionals in the field to examine passenger behavior patterns, improve traveler experiences, assess pilot performance, and improve overall flight operations.
             </p>
+            
+            <!-- Dataset Download Section -->
                 <div class="file-container">
                     <a href="reports/Airline_Dataset.csv" target="blank" download="Airline_Dataset.csv"> <img src="static/dataset_img.png" alt="Intermediate Report"></a>
                     <br>
@@ -147,6 +139,8 @@
         </section>
         <br>
         <br>
+        
+        <!-- Data Analysis Graphs Section -->
         <section id="GraphsSection">
             <h2><span>Data Analysis Graphs</span></h2>
             <br>
@@ -196,124 +190,123 @@
             <section id="returnFromGraphs"></section>
             <br>
             <h1>List of Graphs</h1>
+            
+            <!-- Interactive Graph List with View Links -->
             <div class="graph-container">
                 <ul class="list-group">
-                    <!-- Graph items -->
                     <div class="list-container">
                         <div class="item">
                           <span class="alignGraph"><b>Graph I :</b> Pie-Chart of Gender wise Travellers i.e. Males & Females</span>
                           <a href="pages/Graph1.html" class="view-btn">View</a>
-                          <!-- <button class="view-btn">View</button> -->
                         </div>
                         <div class="item">
                           <span class="alignGraph"><b>Graph II :</b> Bar Graph of Top 10 Countries with Most Passengers</span>
                           <a href="pages/Graph2.html" class="view-btn">View</a>
-                          <!-- <button class="view-btn">View</button> -->
                         </div>
                         <div class="item">
                           <span class="alignGraph"><b>Graph III :</b> Airport Country and Continent Wise Passengers</span>
                           <a href="pages/Graph3.html" class="view-btn">View</a>
-                          <!-- <button class="view-btn">View</button> -->
+                          
                         </div>
                         <div class="item">
                           <span class="alignGraph"><b>Graph IV :</b> Histogram of Passengers Age</span>
                           <a href="pages/Graph4.html" class="view-btn">View</a>
-                          <!-- <button class="view-btn">View</button> -->
+                          
                         </div>
                         <div class="item">
                           <span class="alignGraph"><b>Graph V :</b> Bar Graph of # of passengers & Age</span>
                           <a href="pages/Graph5.html" class="view-btn">View</a>
-                          <!-- <button class="view-btn">View</button> -->
+                          
                         </div>
                         <div class="item">
                           <span class="alignGraph"><b>Graph VI :</b> Bar Graph of Age V/S Count of Passengers</span>
                           <a href="pages/Graph6.html" class="view-btn">View</a>
-                          <!-- <button class="view-btn">View</button> -->
+                          
                         </div>
                         <div class="item">
                           <span class="alignGraph"><b>Graph VII :</b>Distribution across Nationality</span>
                           <a href="pages/Graph7.html" class="view-btn">View</a>
-                          <!-- <button class="view-btn">View</button> -->
+                          
                         </div>
                         <div class="item">
                           <span class="alignGraph"><b>Graph VIII :</b> Pie-Chart of Flight Staus</span>
                           <a href="pages/Graph8.html" class="view-btn">View</a>
-                          <!-- <button class="view-btn">View</button> -->
+                          
                         </div>
                         <div class="item">
                           <span class="alignGraph"><b>Graph IX :</b> Relative Analysis Graph </span>
                           <a href="pages/Graph9.html" class="view-btn">View</a>
-                          <!-- <button class="view-btn">View</button> -->
+                          
                         </div>
                         <div class="item">
                           <span class="alignGraph"><b>Graph X :</b> Relative Analysis of Flight Status wrt Dates</span>
                           <a href="pages/Graph10.html" class="view-btn">View</a>
-                          <!-- <button class="view-btn">View</button> -->
+                          
                         </div>
                         <div class="item">
                           <span class="alignGraph"><b>Graph XI :</b> Line Graph of Age vs Date of Travelling</span>
                           <a href="pages/Graph11.html" class="view-btn">View</a>
-                          <!-- <button class="view-btn">View</button> -->
+                          
                         </div>
                         <div class="item">
                           <span class="alignGraph"><b>Graph XII :</b> Bar Graph of Passenger Distribution in Africa</span>
                           <a href="pages/Graph12.html" class="view-btn">View</a>
-                          <!-- <button class="view-btn">View</button> -->
+                          
                         </div>
                         <div class="item">
                           <span class="alignGraph"><b>Graph XIII :</b> Pie-Chart of Passenger Distribution in Africa</span>
                           <a href="pages/Graph13.html" class="view-btn">View</a>
-                          <!-- <button class="view-btn">View</button> -->
+                          
                         </div>
                         <div class="item">
                           <span class="alignGraph"><b>Graph XIV :</b> Bar Graph of Passenger Distribution in Asia</span>
                           <a href="pages/Graph14.html" class="view-btn">View</a>
-                          <!-- <button class="view-btn">View</button> -->
+                          
                         </div>
                         <div class="item">
                           <span class="alignGraph"><b>Graph XV :</b> Pie-Chart of Passenger Distribution in Asia</span>
                           <a href="pages/Graph15.html" class="view-btn">View</a>
-                          <!-- <button class="view-btn">View</button> -->
+                          
                         </div>
                         <div class="item">
                           <span class="alignGraph"><b>Graph XVI :</b> Bar Graph of Passenger Distribution in Europe</span>
                           <a href="pages/Graph16.html" class="view-btn">View</a>
-                          <!-- <button class="view-btn">View</button> -->
+                          
                         </div>
                         <div class="item">
                           <span class="alignGraph"><b>Graph XVII :</b> Pie-Chart of Passenger Distribution in Europe</span>
                           <a href="pages/Graph17.html" class="view-btn">View</a>
-                          <!-- <button class="view-btn">View</button> -->
+                          
                         </div>
                         <div class="item">
                           <span class="alignGraph"><b>Graph XVIII :</b> Bar Graph of Passenger Distribution in North America</span>
                           <a href="pages/Graph18.html" class="view-btn">View</a>
-                          <!-- <button class="view-btn">View</button> -->
+                          
                         </div>
                         <div class="item">
                           <span class="alignGraph"><b>Graph XIX :</b> Pie-Chart of Passenger Distribution in North America</span>
                           <a href="pages/Graph19.html" class="view-btn">View</a>
-                          <!-- <button class="view-btn">View</button> -->
+                          
                         </div>
                         <div class="item">
                           <span class="alignGraph"><b>Graph XX :</b> Bar Graph of Passenger Distribution in Oceania</span>
                           <a href="pages/Graph20.html" class="view-btn">View</a>
-                          <!-- <button class="view-btn">View</button> -->
+                          
                         </div>
                         <div class="item">
                           <span class="alignGraph"><b>Graph XXI :</b> Pie-Chart of Passenger Distribution in Oceania</span>
                           <a href="pages/Graph21.html" class="view-btn">View</a>
-                          <!-- <button class="view-btn">View</button> -->
+                          
                         </div>
                         <div class="item">
                           <span class="alignGraph"><b>Graph XXII :</b> Bar Graph of Passenger Distribution in South America</span>
                           <a href="pages/Graph22.html" class="view-btn">View</a>
-                          <!-- <button class="view-btn">View</button> -->
+                          
                         </div>
                         <div class="item">
                           <span class="alignGraph"><b>Graph XXIII :</b> Pie-Chart of Passenger Distribution in South America</span>
                           <a href="pages/Graph23.html" class="view-btn">View</a>
-                          <!-- <button class="view-btn">View</button> -->
+                          
                         </div>
 
                         <!-- Download Generated Graphs PDF --> 
@@ -322,7 +315,7 @@
                           <!-- <a href="Pages/Graph22.html" class="view-btn">D</a> -->
                           <a href="reports/Generated_Graphs.pdf" target="blank" download="Generated_Graphs.pdf" class="view-btn">Download</a>
                   
-                          <!-- <button class="view-btn">View</button> -->
+                          
                         </div>
                         <!-- Add more items as needed -->
                     </div>
@@ -332,6 +325,8 @@
         </section>
         <br>
         <br>
+        
+        <!-- Project Reports Section -->
         <section id="ReportSection">
             <h2><span>Reports</span></h2>
             <div class="setimg">
@@ -339,10 +334,11 @@
             <br>
             <br>
             <br>
+            
+            <!-- Project Proposal Document -->
             <h3>Project Proposal</h3>
             <h4>Date : 30/09/2023 </h4>
                 <div class="file-container">
-                  <!-- File link and download button -->
                   
                     <a href="reports/project-proposal.pdf" target="blank" download="project-proposal.pdf" > <img src="static/pdf_img.png" alt="Project Proposal"></a>
                     <br>
@@ -355,10 +351,11 @@
             <br>
             <br>
             <br>
+            
+            <!-- Intermediate Submission Report -->
             <h3>Intermediate Submission Reoprt</h3>
             <h4>Date : 30/10/2023 </h4>
                 <div class="file-container">
-                  <!-- File link and download button -->
                   
                     <a href="reports/project-update.pdf" target="blank" download="project-update.pdf"> <img src="static/pdf_img.png" alt="Intermediate Report"></a>
                     <br>
@@ -370,6 +367,8 @@
 
             <br>
             <br>
+            
+            <!-- External Code Repository Links -->
             <h3>Code Links :</h3>
             <br>
 
@@ -385,6 +384,8 @@
         </section>
     </main>
     <hr color=#333>
+    
+    <!-- Page Footer with Copyright and LinkedIn Links -->
     <footer>
         <a href="#" id="openTabs" class="copyright flex-align-right menubtn"> &copy; 2023 | ROHIT SINGH YADAV & BHARAT PATIDAR</a>
     </footer>
