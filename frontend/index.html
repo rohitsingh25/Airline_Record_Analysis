@@ -9,16 +9,24 @@
     
     <!-- Script to open LinkedIn profiles in new tabs -->
     <script>
-      document.getElementById('openTabs').addEventListener('click', function(e) {
-        e.preventDefault();
+      document.addEventListener('DOMContentLoaded', function() {
+        // Rohit's LinkedIn button
+        const rohitBtn = document.getElementById('rohitLinkedIn');
+        if (rohitBtn) {
+          rohitBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.open('https://in.linkedin.com/in/rohit1225/', '_blank');
+          });
+        }
         
-        // LinkedIn profile URLs for project contributors
-        var url1 = 'https://in.linkedin.com/in/rohit1225/es?trk=people-guest_people_search-card&original_referer=https%3A%2F%2Fwww.google.com%2F';
-        var url2 = 'https://in.linkedin.com/in/bharat-patidar-a74a8b1b0';
-      
-        // Open profiles in new tabs
-        window.open(url1, '_blank');
-        window.open(url2, '_blank');
+        // Bharat's LinkedIn button
+        const bharatBtn = document.getElementById('bharatLinkedIn');
+        if (bharatBtn) {
+          bharatBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.open('https://in.linkedin.com/in/bharat-patidar-a74a8b1b0', '_blank');
+          });
+        }
       });
       </script>
   </head>
@@ -45,7 +53,7 @@
             <br>
             <br>
             <p id="paratext">
-                &nbsp; &nbsp; <b>Airline</b> data is very important since it provides information on how the aviation business operates and how efficient it is. Airlines may use this useful data to improve customer experiences and operational efficiency. It includes aircraft routes, schedules, passenger demographics, and preferences. Airlines can detect patterns and put plans in place to enhance timeliness and lessen disruptions by evaluating data on delays, cancellations, and on-time performance. Furthermore, this information is used by regulatory agencies and legislators to establish safety guidelines, carry out legal requirements, and decide on aviation-related matters. Airline data is used by analysts and researchers to analyze environmental effects, track market trends, and create plans for the industry's long-term future. In essence, airline data serves as a foundation for informed decision-making, operational efficiency, and the overall advancement of the aviation sector.
+                &nbsp; &nbsp; This <b>Airline Data Analysis Dashboard</b> is a comprehensive CS699 Software Lab project that processes and visualizes 98,619 passenger records to derive actionable insights from international airline operations. The system employs a Python-based analytical backend powered by industry-standard libraries (Pandas, NumPy, Matplotlib, Seaborn, Plotly) to generate 21 high-resolution visualizations covering demographic patterns, geographic distribution, and flight operational metrics. The project utilizes a YAML-based configuration system for flexible parameter management and implements a 5-phase processing pipeline that includes data loading, preprocessing, demographic analysis, flight operations analysis, and regional deep-dives across 6 continents. All visualizations are automatically compiled into a PDF report and deployed to an interactive web dashboard, enabling stakeholders to explore passenger behavior, operational efficiency, and market trends through an intuitive interface with responsive design and organized navigation.
               </p>
             
             <!-- Sample Backend Code Display -->
@@ -55,63 +63,52 @@
                 <br>
                 <pre>
                   <code class="language-python">
-                    <span class="comment"># Python code </span>
-                    <span class="keyword">import</span> numpy as np <span class="comment"># linear algebra</span>
-                    <span class="keyword">import</span> pandas as pd <span class="comment"># data processing, CSV file I/O (e.g. pd.read_csv)</span>
+                    <span class="comment"># Import libraries</span>
+                    <span class="keyword">import</span> numpy as np
+                    <span class="keyword">import</span> pandas as pd
                     <span class="keyword">import</span> matplotlib.pyplot as plt
                     <span class="keyword">import</span> seaborn as sns
                     <span class="keyword">import</span> plotly.express as px
-                    <span class="keyword">import</span> os
+                    <span class="keyword">import</span> yaml
 
+                    <span class="comment"># Load configuration</span>
+                    <span class="keyword">with</span> open(<span class="string">'config.yaml'</span>, <span class="string">'r'</span>) <span class="keyword">as</span> f:
+                        config = yaml.safe_load(f)
 
-                    <span class="comment"># Reading the dataset </span>
-                    
+                    <span class="comment"># Load and preprocess dataset</span>
+                    df = pd.read_csv(config[<span class="string">'input'</span>][<span class="string">'dataset_path'</span>], 
+                                     parse_dates=config[<span class="string">'input'</span>][<span class="string">'parse_dates'</span>])
+                    df[<span class="string">'Gender'</span>] = df[<span class="string">'Gender'</span>].astype(<span class="string">'category'</span>)
+                    df[<span class="string">'Age'</span>] = df[<span class="string">'Age'</span>].astype(int)
 
-                    df=pd.read_csv(<span class="string">"Airline_Dataset.csv"</span>, parse_dates=["Departure Date"])
-                    df.head(11)
-                    df.info()
-                    df.nunique()
-                    df.isnull().sum().sum() #Checking if Null value is present
+                    <span class="comment"># Gender distribution pie chart</span>
+                    count_1 = df[<span class="string">'Gender'</span>].value_counts()
+                    fig = px.pie(count_1, values=count_1.values, names=count_1.index,
+                                 title=<span class="string">"Distribution of passengers accross Genders"</span>)
+                    fig.write_image(<span class="string">"gender_distribution_pie.png"</span>)
 
-                    df['Gender']=df['Gender'].astype('category')
-                    df['Gender'].unique()
-                    df['Age']=df['Age'].astype(int)
+                    <span class="comment"># Top countries bar chart</span>
+                    count_2 = df[<span class="string">'Country Name'</span>].value_counts()
+                    fig = px.bar(count_2.head(10), x=count_2.head(10).index, 
+                                 y=count_2.head(10).values, 
+                                 title=<span class="string">'Top 10 Airport Countries with Most Passengers'</span>,
+                                 labels={<span class="string">'x'</span>: <span class="string">'Country'</span>, <span class="string">'y'</span>: <span class="string">'Passenger Count'</span>})
+                    fig.write_image(<span class="string">"top_countries_passengers_bar.png"</span>)
 
-                    
+                    <span class="comment"># Continent-wise sunburst chart</span>
+                    df_c = pd.DataFrame(count_2).reset_index().rename(columns={<span class="string">"index"</span>: <span class="string">"value"</span>, 0: <span class="string">"count"</span>})
+                    con = df.loc[:, [<span class="string">'Country Name'</span>, <span class="string">'Continents'</span>]].drop_duplicates()
+                    new_df = pd.merge_ordered(df_c, con, fill_method=<span class="string">'ffill'</span>, on=<span class="string">'Country Name'</span>)
+                    fig = px.sunburst(new_df, path=[<span class="string">'Continents'</span>, <span class="string">'Country Name'</span>], 
+                                      values=<span class="string">'count'</span>, color=<span class="string">'count'</span>,
+                                      color_continuous_scale=<span class="string">'RdBu'</span>,
+                                      title=<span class="string">"Airport Country and Continent wise Passengers"</span>)
+                    fig.write_image(<span class="string">"continent_country_sunburst.png"</span>)
 
-                    <span class="comment"># Pie chart of passengers </span>
-
-                    count_1 = df['Gender'].value_counts()
-                    count_1
-                    fig = px.pie(count_1, values=count_1.values, names=count_1.index,title= "Distribution of passengers accross Genders")
-                    fig.write_image("gender_distribution_pie.png")
-                    # fig.show()
-
-                    <span class="comment"># #Bar chart of passengers</span>
-
-                    count_2 = df['Country Name'].value_counts()
-                    fig = px.bar(count_2.head(10), x=count_2.head(10).index, y=count_2.head(10).values, title='Top 10 Airport Countries with Most Passengers',labels={'x': 'Country', 'y': 'Passenger Count'})
-                    fig.write_image("top_countries_passengers_bar.png")
-
-                    <span class="comment"># Continent-wise hierarchical visualization</span>
-
-                    df_c= pd.DataFrame(count_2).reset_index().rename(columns={"index": "value", 0: "count"})
-                    con=df.loc[:,['Country Name','Continents']]
-                    con=con.drop_duplicates()
-                    new_df=pd.merge_ordered(df_c,con, fill_method= 'ffill', on= 'Country Name')
-                    fig = px.sunburst(new_df, path=['Continents', 'Country Name'], values='count',
-                                      color='count', 
-                                      color_continuous_scale='RdBu',
-                                      color_continuous_midpoint=np.average(new_df['count'], weights=new_df['count']),
-                                      title= "Airport Country and Continent wise Passengers")
-                    fig.write_image("continent_country_sunburst.png")
-                    
                     <span class="comment"># Age distribution histogram</span>
-                    
-                    fig = px.histogram(df, x='Age', nbins=20, color='Gender',
-                                      title='Histogram of Passengers Age',
-                                      labels={'Age': 'Passengers Age'})
-                    fig.write_image("age_distribution_histogram.png")
+                    fig = px.histogram(df, x=<span class="string">'Age'</span>, nbins=20, color=<span class="string">'Gender'</span>,
+                                       title=<span class="string">'Histogram of Passengers Age'</span>)
+                    fig.write_image(<span class="string">"age_distribution_histogram.png"</span>)
 
                   </code>
                 </pre>
@@ -119,10 +116,10 @@
               <br>
             
             <!-- Dataset Information Section -->
-            <h3>Dataset </h3>
+            <h3>Dataset Information</h3>
             <br>
             <p id="paratext">
-              &nbsp; &nbsp;This dataset includes a variety of parameters related to international airline operations. Passenger ID, First Name, Last Name, Gender, Age, Nationality, Airport Name, Airport Country Code, Country Name, Airport Continent, Continents, Departure Date, Arrival Airport, Pilot Name, and Flight Status are among the fields that are prominently included in the dataset. All of these columns combined offer deep insights into flight statuses, crew information, flight routes, travel information, and passenger demographics. This information can be used by academics and professionals in the field to examine passenger behavior patterns, improve traveler experiences, assess pilot performance, and improve overall flight operations.
+              &nbsp; &nbsp;The <b>Airline_Dataset.csv</b> contains <b>98,619 passenger records</b> with comprehensive information spanning passenger demographics, flight operations, and geographic data. Key fields include: <b>Passenger Demographics</b> (Passenger ID, First Name, Last Name, Gender, Age, Nationality), <b>Geographic Information</b> (Airport Name, Airport Country Code, Country Name, Airport Continent, Continents), <b>Flight Details</b> (Departure Date, Arrival Airport, Pilot Name), and <b>Operational Metrics</b> (Flight Status: On Time, Delayed, Cancelled). The dataset enables multi-dimensional analysis including gender distribution patterns, age demographics with 20-bin histograms, top 10 countries by passenger volume, top 20 nationalities, continent-wise hierarchical visualization, temporal flight status trends, and regional breakdowns for Asia, Europe, North America, South America, Africa, and Oceania. All date fields are properly parsed for temporal analysis, and categorical variables are optimized for efficient processing and visualization generation.
             </p>
             
             <!-- Dataset Download Section -->
@@ -146,43 +143,28 @@
             <br>
             <br>
             <p id="paratext">
-                <b>Objective : </b>
+                <b>Analysis Objectives:</b>
                 <br>
                 <br>
-                <!-- &nbsp; &nbsp;&nbsp; &nbsp; -->
-                Analyzing passenger behavior and preferences to optimize travel experiences.
-                <br>
-                Evaluating pilot performance and flight operations to enhance safety and efficiency.
-                <br>
-                Identifying trends in flight statuses and delays for operational improvements.
-                <br>
-                Data Preprocessing We perform some data preprocessing steps, including
-                data type conversion and exploring categorical data.
-                <br>
-                Data Visualization We create visualizations to better understand the dataset.
+                This project implements a comprehensive Exploratory Data Analysis (EDA) pipeline to extract actionable insights from 98,619 passenger records. The analysis focuses on three key areas:
                 <br><br>
-
-                <b>Exploratory Data Analysis (EDA)</b> for airline travel data involves investigating and understanding the dataset's characteristics, patterns, and relationships to extract meaningful insights.
-                <br>
-                <br>
-                <b>1. Data Collection:</b>
-                Gather relevant datasets containing information about flights, passengers, routes, airports, delays, cancellations, etc.
-                Understand the dataset structure, features, and their descriptions (columns, data types, missing values).
-                <br>
-                <br>
-                <b>2. Data Cleaning:</b>
-                Handle missing or null values by imputing or removing them appropriately.
-                Address duplicates, inconsistencies, or errors in the data.
-                Convert data types, if necessary, for better analysis (e.g., converting date-time columns).
-                <br>
-                <br>
-                <b>3. Visualization </b>
-                <!-- 11. Visualization and Insights: -->
-                Summarize findings through visualizations, tables, or narratives.
-                Derive actionable insights and recommendations based on the analysis.
-                <br>
-                <br>
-                EDA provides a comprehensive understanding of the dataset, paving the way for more focused analysis or modeling to derive actionable insights for airlines, airports, travelers, and stakeholders in the aviation industry.
+                <b>• Demographic Analysis:</b> Gender distribution patterns, age demographics across 20 bins with gender-based color coding, and nationality diversity across top 20 nationalities using donut chart visualization.
+                <br><br>
+                <b>• Geographic Distribution:</b> Top 10 countries by passenger volume, hierarchical continent-country sunburst visualization with RdBu color scaling, and regional deep-dives for 6 continents (Asia, Europe, North America, South America, Africa, Oceania) with both bar and pie chart representations.
+                <br><br>
+                <b>• Flight Operations:</b> Flight status distribution (On Time, Delayed, Cancelled), temporal trends analysis using multi-line plots with Set2 palette, and average passenger age trends over departure dates.
+                <br><br>
+                <b>Data Processing Pipeline:</b>
+                <br><br>
+                <b>1. Configuration & Loading:</b> YAML-based configuration management for paths, parameters (top_n_countries: 10, top_n_nationalities: 20, age_bins: 20), and figure settings (DPI: 300, sizes: 14x8, 18x10).
+                <br><br>
+                <b>2. Data Preprocessing:</b> Type conversions (Gender to category, Age to integer), date parsing for temporal analysis, null value handling, and data validation across 98,619 records.
+                <br><br>
+                <b>3. Visualization Generation:</b> 21 high-resolution graphs (300 DPI) using Plotly Express for interactive charts, Matplotlib/Seaborn for statistical plots, and automated export to both backend/graphs and frontend/img directories.
+                <br><br>
+                <b>4. Report Compilation:</b> All visualizations are merged into a single generated-graphs.pdf using matplotlib PdfPages, preserving image quality and dimensions for comprehensive reporting.
+                <br><br>
+                The analysis provides stakeholders with clear insights into passenger demographics, market dynamics, operational efficiency, and regional travel patterns, supporting data-driven decision-making in airline operations and strategic planning.
             </p>
             <br>
             <br>
@@ -190,130 +172,134 @@
             <section id="returnFromGraphs"></section>
             <br>
             <h1>List of Graphs</h1>
+            <p id="paratext">
+                &nbsp; &nbsp; The following collection presents <b>21 interactive visualizations</b> generated from the analysis of 98,619 passenger records. Each graph is saved as a high-resolution PNG image (300 DPI) with meaningful descriptive filenames. The visualizations are organized into four categories: <b>Demographic Analysis</b> (Graphs I-VII covering gender, age, and nationality), <b>Flight Operations</b> (Graphs VIII-XI showing flight status and temporal trends), <b>Regional Analysis</b> (Graphs XII-XXIII presenting continent-specific distributions for Africa, Asia, Europe, North America, Oceania, and South America), and a <b>Compiled PDF Report</b> containing all visualizations. Click "View" to explore individual graphs with detailed explanations, or download the complete PDF compilation for offline reference.
+            </p>
+            <br>
             
             <!-- Interactive Graph List with View Links -->
             <div class="graph-container">
                 <ul class="list-group">
                     <div class="list-container">
                         <div class="item">
-                          <span class="alignGraph"><b>Graph I :</b> Pie-Chart of Gender wise Travellers i.e. Males & Females</span>
+                          <span class="alignGraph"><b>Graph I :</b> Gender Distribution - Pie Chart</span>
                           <a href="pages/Graph1.html" class="view-btn">View</a>
                         </div>
                         <div class="item">
-                          <span class="alignGraph"><b>Graph II :</b> Bar Graph of Top 10 Countries with Most Passengers</span>
+                          <span class="alignGraph"><b>Graph II :</b> Top 10 Countries by Passenger Count - Bar Chart</span>
                           <a href="pages/Graph2.html" class="view-btn">View</a>
                         </div>
                         <div class="item">
-                          <span class="alignGraph"><b>Graph III :</b> Airport Country and Continent Wise Passengers</span>
+                          <span class="alignGraph"><b>Graph III :</b> Continent-Country Hierarchical Distribution - Sunburst Chart</span>
                           <a href="pages/Graph3.html" class="view-btn">View</a>
                           
                         </div>
                         <div class="item">
-                          <span class="alignGraph"><b>Graph IV :</b> Histogram of Passengers Age</span>
+                          <span class="alignGraph"><b>Graph IV :</b> Age Distribution by Gender - Histogram (20 bins)</span>
                           <a href="pages/Graph4.html" class="view-btn">View</a>
                           
                         </div>
                         <div class="item">
-                          <span class="alignGraph"><b>Graph V :</b> Bar Graph of # of passengers & Age</span>
+                          <span class="alignGraph"><b>Graph V :</b> Passenger Count by Age - Bar Chart</span>
                           <a href="pages/Graph5.html" class="view-btn">View</a>
                           
                         </div>
                         <div class="item">
-                          <span class="alignGraph"><b>Graph VI :</b> Bar Graph of Age V/S Count of Passengers</span>
+                          <span class="alignGraph"><b>Graph VI :</b> Average Age Trends Over Time - Line Chart</span>
                           <a href="pages/Graph6.html" class="view-btn">View</a>
                           
                         </div>
                         <div class="item">
-                          <span class="alignGraph"><b>Graph VII :</b>Distribution across Nationality</span>
+                          <span class="alignGraph"><b>Graph VII :</b> Top 20 Nationalities Distribution - Donut Chart</span>
                           <a href="pages/Graph7.html" class="view-btn">View</a>
                           
                         </div>
                         <div class="item">
-                          <span class="alignGraph"><b>Graph VIII :</b> Pie-Chart of Flight Staus</span>
+                          <span class="alignGraph"><b>Graph VIII :</b> Flight Status Distribution - Pie Chart</span>
                           <a href="pages/Graph8.html" class="view-btn">View</a>
                           
                         </div>
                         <div class="item">
-                          <span class="alignGraph"><b>Graph IX :</b> Relative Analysis Graph </span>
+                          <span class="alignGraph"><b>Graph IX :</b> Asia - Top 10 Countries - Bar Chart</span>
                           <a href="pages/Graph9.html" class="view-btn">View</a>
                           
                         </div>
                         <div class="item">
-                          <span class="alignGraph"><b>Graph X :</b> Relative Analysis of Flight Status wrt Dates</span>
+                          <span class="alignGraph"><b>Graph X :</b> Asia - Top 10 Countries - Pie Chart</span>
                           <a href="pages/Graph10.html" class="view-btn">View</a>
                           
                         </div>
                         <div class="item">
-                          <span class="alignGraph"><b>Graph XI :</b> Line Graph of Age vs Date of Travelling</span>
+                          <span class="alignGraph"><b>Graph XI :</b> Flight Status Trends Over Time - Multi-Line Chart</span>
                           <a href="pages/Graph11.html" class="view-btn">View</a>
                           
                         </div>
                         <div class="item">
-                          <span class="alignGraph"><b>Graph XII :</b> Bar Graph of Passenger Distribution in Africa</span>
+                          <span class="alignGraph"><b>Graph XII :</b> Africa - Top 10 Countries - Bar Chart</span>
                           <a href="pages/Graph12.html" class="view-btn">View</a>
                           
                         </div>
                         <div class="item">
-                          <span class="alignGraph"><b>Graph XIII :</b> Pie-Chart of Passenger Distribution in Africa</span>
+                          <span class="alignGraph"><b>Graph XIII :</b> Africa - Top 10 Countries - Pie Chart</span>
                           <a href="pages/Graph13.html" class="view-btn">View</a>
                           
                         </div>
                         <div class="item">
-                          <span class="alignGraph"><b>Graph XIV :</b> Bar Graph of Passenger Distribution in Asia</span>
+                          <span class="alignGraph"><b>Graph XIV :</b> Asia - Top 10 Countries - Bar Chart (Regional)</span>
                           <a href="pages/Graph14.html" class="view-btn">View</a>
                           
                         </div>
                         <div class="item">
-                          <span class="alignGraph"><b>Graph XV :</b> Pie-Chart of Passenger Distribution in Asia</span>
+                          <span class="alignGraph"><b>Graph XV :</b> Asia - Top 10 Countries - Pie Chart (Regional)</span>
                           <a href="pages/Graph15.html" class="view-btn">View</a>
                           
                         </div>
                         <div class="item">
-                          <span class="alignGraph"><b>Graph XVI :</b> Bar Graph of Passenger Distribution in Europe</span>
+                          <span class="alignGraph"><b>Graph XVI :</b> Europe - Top 10 Countries - Bar Chart</span>
                           <a href="pages/Graph16.html" class="view-btn">View</a>
                           
                         </div>
                         <div class="item">
-                          <span class="alignGraph"><b>Graph XVII :</b> Pie-Chart of Passenger Distribution in Europe</span>
+                          <span class="alignGraph"><b>Graph XVII :</b> Europe - Top 10 Countries - Pie Chart</span>
                           <a href="pages/Graph17.html" class="view-btn">View</a>
                           
                         </div>
                         <div class="item">
-                          <span class="alignGraph"><b>Graph XVIII :</b> Bar Graph of Passenger Distribution in North America</span>
+                          <span class="alignGraph"><b>Graph XVIII :</b> North America - Top 10 Countries - Bar Chart</span>
                           <a href="pages/Graph18.html" class="view-btn">View</a>
                           
                         </div>
                         <div class="item">
-                          <span class="alignGraph"><b>Graph XIX :</b> Pie-Chart of Passenger Distribution in North America</span>
+                          <span class="alignGraph"><b>Graph XIX :</b> North America - Top 10 Countries - Pie Chart</span>
                           <a href="pages/Graph19.html" class="view-btn">View</a>
                           
                         </div>
                         <div class="item">
-                          <span class="alignGraph"><b>Graph XX :</b> Bar Graph of Passenger Distribution in Oceania</span>
+                          <span class="alignGraph"><b>Graph XX :</b> Oceania - Top 10 Countries - Bar Chart</span>
                           <a href="pages/Graph20.html" class="view-btn">View</a>
                           
                         </div>
                         <div class="item">
-                          <span class="alignGraph"><b>Graph XXI :</b> Pie-Chart of Passenger Distribution in Oceania</span>
+                          <span class="alignGraph"><b>Graph XXI :</b> Oceania - Top 10 Countries - Pie Chart</span>
                           <a href="pages/Graph21.html" class="view-btn">View</a>
                           
                         </div>
                         <div class="item">
-                          <span class="alignGraph"><b>Graph XXII :</b> Bar Graph of Passenger Distribution in South America</span>
+                          <span class="alignGraph"><b>Graph XXII :</b> South America - Top 10 Countries - Bar Chart</span>
                           <a href="pages/Graph22.html" class="view-btn">View</a>
                           
                         </div>
                         <div class="item">
-                          <span class="alignGraph"><b>Graph XXIII :</b> Pie-Chart of Passenger Distribution in South America</span>
+                          <span class="alignGraph"><b>Graph XXIII :</b> South America - Top 10 Countries - Pie Chart</span>
                           <a href="pages/Graph23.html" class="view-btn">View</a>
                           
                         </div>
 
                         <!-- Download Generated Graphs PDF --> 
                         <div class="item" >
-                          <span class="alignGraph"><b>Generated Graphs PDF</b></span>
+                          <span class="alignGraph"><b>Complete Visualization Report:</b> All 21 Graphs Compiled (PDF)</span>
                           <!-- <a href="Pages/Graph22.html" class="view-btn">D</a> -->
-                          <a href="reports/Generated_Graphs.pdf" target="blank" download="Generated_Graphs.pdf" class="view-btn">Download</a>
+                          <a href="reports/generated-graphs.pdf" target="blank" download="generated-graphs.pdf" class="view-btn">Download</a>
                   
                           
                         </div>
@@ -329,6 +315,11 @@
         <!-- Project Reports Section -->
         <section id="ReportSection">
             <h2><span>Reports</span></h2>
+            <br>
+            <br>
+            <p id="paratext">
+                &nbsp; &nbsp; This section provides access to project documentation and deliverables for the CS699 Software Lab course. Available documents include the <b>Project Proposal</b> (initial project scope, objectives, and methodology), <b>Intermediate Submission Report</b> (progress update with preliminary findings), and external code repository links for collaborative development and version control on Google Colab and GitHub platforms.
+            </p>
             <div class="setimg">
             <br>
             <br>
@@ -369,7 +360,10 @@
             <br>
             
             <!-- External Code Repository Links -->
-            <h3>Code Links :</h3>
+            <h3>Code Repository Links</h3>
+            <p id="paratext">
+               &nbsp; &nbsp;  Access the complete project source code through multiple platforms: <b>Google Colab</b> for interactive notebook-based analysis and experimentation, and <b>GitHub</b> for version-controlled source code repository with complete project structure, backend Python scripts, frontend HTML/CSS/JS files, configuration files, and documentation.
+            </p>
             <br>
 
             <br>
@@ -381,13 +375,29 @@
             </div>
             <br>
             <br>
+            
+            <!-- Developer LinkedIn Profiles -->
+            <h3>Meet the Developers</h3>
+            <p id="paratext">
+               &nbsp; &nbsp; Connect with the project developers on LinkedIn to learn more about their work, academic background, and professional experience.
+            </p>
+            <br>
+            <a href="#" id="rohitLinkedIn" class="download-btn">Rohit Singh Yadav - LinkedIn</a>
+            <br>
+            <br>
+            <br>
+            
+            <a href="#" id="bharatLinkedIn" class="download-btn">Bharat Patidar - LinkedIn</a>
+            </div>
+            <br>
+            <br>
         </section>
     </main>
     <hr color=#333>
     
-    <!-- Page Footer with Copyright and LinkedIn Links -->
-    <footer>
-        <a href="#" id="openTabs" class="copyright flex-align-right menubtn"> &copy; 2023 | ROHIT SINGH YADAV & BHARAT PATIDAR</a>
+    <!-- Page Footer -->
+    <footer class="ck">
+        <span class="copyright flex-align-right menubtn"> &copy; 2023 | ROHIT SINGH YADAV & BHARAT PATIDAR</span>
     </footer>
     </body>
 </html>

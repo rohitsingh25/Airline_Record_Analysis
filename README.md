@@ -93,7 +93,7 @@ Airline_Record_Analysis/
     │   └── Each page displays a specific visualization
     └── reports/            # Project deliverables
         ├── Airline_Dataset.csv      # Dataset copy
-        ├── Generated_Graphs.pdf     # Compiled visualizations
+        ├── generated-graphs.pdf     # Compiled visualizations
         ├── project-proposal.pdf     # Project proposal document
         ├── project-update.pdf       # Project update document
         └── 23m0761_23m0773.tar.xz  # Compressed project archive
@@ -264,7 +264,7 @@ Available in two locations:
 ## 📊 Project Deliverables
 
 The `frontend/reports/` directory contains:
-- **Generated_Graphs.pdf** - Compilation of all 23 visualizations
+- **generated-graphs.pdf** - Compilation of all 21 visualizations
 - **project-proposal.pdf** - Initial project proposal document
 - **project-update.pdf** - Project progress update
 - **23m0761_23m0773.tar.xz** - Complete project archive
