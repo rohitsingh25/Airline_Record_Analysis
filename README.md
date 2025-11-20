@@ -8,25 +8,28 @@ This project analyzes airline passenger data to provide insights into travel pat
 
 ## 🎯 Features
 
-- **Comprehensive Data Analysis**: Analysis of 98,621 passenger records
-- **Interactive Visualizations**: 23 different graphs and charts
+- **Comprehensive Data Analysis**: Analysis of 98,619 passenger records with automated pipeline
+- **Rich Visualizations**: 21 graphs and charts with meaningful descriptive names
 - **Demographic Insights**: Gender, age, nationality, and geographic distribution analysis
 - **Flight Performance Metrics**: On-time, delayed, and cancelled flight statistics
-- **Web Dashboard**: User-friendly interface with 23 interactive visualization pages
-- **Multi-continent Analysis**: Dedicated visualizations for each continent (Asia, Europe, North America, South America, Africa, Oceania)
-- **Export Capabilities**: All graphs generated as PNG images and compiled in PDF format
+- **Web Dashboard**: User-friendly interface with 23 pages (21 graphs + index + additional pages)
+- **Multi-continent Analysis**: Dedicated bar & pie charts for 6 continents (Asia, Europe, North America, South America, Africa, Oceania)
+- **Progress Tracking**: Real-time feedback during script execution with 5-phase progress system
+- **YAML Configuration**: Centralized config.yaml for easy customization of paths and parameters
+- **Export Capabilities**: High-resolution PNG images (300 DPI) compiled in PDF format
 
 ## 🛠️ Tech Stack
 
 ### Backend
-- **Python 3.x**
-- **Pandas** (≥1.3.0) - Data manipulation and analysis
+- **Python 3.10+**
 - **NumPy** (≥1.21.0) - Numerical computing
+- **Pandas** (≥1.3.0) - Data manipulation and analysis
 - **Matplotlib** (≥3.4.0) - Static plotting
 - **Seaborn** (≥0.11.0) - Statistical data visualization
 - **Plotly** (≥5.0.0) - Interactive visualizations
 - **Kaleido** (≥0.2.1) - Static image export for Plotly
 - **PyYAML** (≥6.0) - Configuration file parsing
+- **TQDM** (≥4.64.0) - Progress bars for script execution
 
 ### Frontend
 - **HTML5** - Structure and content
@@ -98,7 +101,7 @@ Airline_Record_Analysis/
 
 ## 📈 Data Analysis Insights
 
-The project generates 23 comprehensive visualizations including:
+The project generates 21 comprehensive visualizations with meaningful, descriptive filenames including:
 
 1. **Demographic Analysis**
    - Gender distribution of passengers (pie chart)
@@ -131,8 +134,8 @@ The project generates 23 comprehensive visualizations including:
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Python 3.7+
-- All required packages are listed in `requirements.txt`
+- Python 3.10+
+- All required packages with versions listed in `requirements.txt`
 
 ### Configuration
 
@@ -160,8 +163,12 @@ input:
 output:
   graphs_dir: "backend/graphs"
   graphs:
-    gender_distribution: "Graph1.png"
-    # ... other graph names
+    gender_distribution: "gender_distribution_pie.png"
+    top_countries: "top_countries_passengers_bar.png"
+    continent_country_sunburst: "continent_country_sunburst.png"
+    age_distribution: "age_distribution_histogram.png"
+    age_count_distribution: "age_count_distribution_bar.png"
+    # ... (21 total graph definitions with meaningful names)
 
 figure_settings:
   dpi: 300
@@ -205,9 +212,17 @@ analysis:
    python3 backend/main.py
    ```
    This will:
-   - Read the dataset from `backend/data/Airline_Dataset.csv`
-   - Generate all 23 visualizations
-   - Save graphs to the `backend/graphs/` directory as PNG files
+   - Load configuration from `config.yaml`
+   - Read the dataset from `backend/data/Airline_Dataset.csv` (98,619 records)
+   - Display 5-phase progress with status updates:
+     - Phase 1: Configuration & Data Loading
+     - Phase 2: Data Preprocessing & Validation
+     - Phase 3: Demographic Analysis (3 visualizations)
+     - Phase 4: Flight Operations Analysis (3 visualizations)
+     - Phase 5: Regional Analysis (12 visualizations)
+   - Generate all 21 visualizations with meaningful names
+   - Save graphs to `backend/graphs/` directory as high-resolution PNG files (300 DPI)
+   - Copy all graphs to `frontend/img/` directory for dashboard display
 
 5. **View the dashboard**:
    - Open `frontend/index.html` in your web browser directly, or
@@ -222,9 +237,11 @@ analysis:
      # On Windows:
      start frontend/index.html
      ```
-   - Navigate through 23 different visualization pages (Graph1.html through Graph23.html)
-   - Explore continent-specific analyses and demographic insights
-   - Access project reports from the `frontend/reports/` directory
+   - Navigate through 23 different pages including index and 21 visualization graphs
+   - Each graph page displays one of the 21 generated visualizations with meaningful names
+   - Explore continent-specific analyses (6 continents with bar & pie charts each)
+   - View demographic insights, flight operations, and regional patterns
+   - Access project reports and dataset from the `frontend/reports/` directory
 
 6. **Deactivate virtual environment** (when done):
    ```bash
@@ -254,17 +271,19 @@ The `frontend/reports/` directory contains:
 
 ## 🔍 Key Findings
 
-- Analysis covers 98,621 passengers from 6 continents with diverse demographics
-- 23 comprehensive visualizations covering demographic, geographic, and operational aspects
-- Flight performance metrics reveal operational efficiency patterns
-- Temporal analysis shows seasonal and periodic travel trends
-- Geographic distribution highlights major travel corridors
-- Continent-specific insights for Asia, Europe, North America, South America, Africa, and Oceania
-- Interactive web dashboard with individual pages for each visualization
+- Analysis covers 98,619 passengers from 6 continents with diverse demographics
+- 21 high-resolution visualizations (300 DPI) covering demographic, geographic, and operational aspects
+- Meaningful graph naming convention improves navigation and understanding
+- Flight performance metrics reveal operational efficiency patterns across time periods
+- Temporal analysis shows trends in passenger age and flight status
+- Geographic distribution highlights major travel corridors and regional patterns
+- Continent-specific insights: 2 visualizations (bar & pie) for each of 6 continents
+- Clean web dashboard with organized pages, responsive design, and intuitive navigation
+- Centralized YAML configuration enables easy customization of analysis parameters
 
 ## 👥 Contributors
 
-- **Rohit Singh** - [LinkedIn](https://in.linkedin.com/in/rohit1225/)
+- **Rohit Singh Yadav** - [LinkedIn](https://in.linkedin.com/in/rohit1225/)
 - **Bharat Patidar** - [LinkedIn](https://in.linkedin.com/in/bharat-patidar-a74a8b1b0)
 
 ## 📧 Contact
